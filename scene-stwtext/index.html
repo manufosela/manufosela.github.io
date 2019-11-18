@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+  <head>
+    <title>scene-stwtext demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script type="module" src="js/scene-stwtext.min.js"></script>
+    <style>
+      .blocks {
+        display:flex;
+        flex-direction:row;
+        flex-wrap: wrap;
+      }
+      .block {
+        display:flex;
+        flex-direction:column;
+        flex-wrap: wrap;
+        white-space: normal;
+      }
+      .code {
+        padding: 20px;
+        color:#FFF; 
+        background: #000;
+      }
+      .attributes {
+        padding-left: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Basic scene-stwtext Demo</h3>
+      <div class="blocks">
+        <pre class="block code">
+          <code>
+            &lt;scene-stwtext 
+            speed="100"
+            delay="0"
+            speed="10" 
+            width="1000px"
+            height="80vh"&gt;<br>
+            Texto que quiero que salga como en Star Wars<br>
+            En formato <b>html</b> con el estilo que le ponga...<br>
+            &lt;/scene-stwtext&gt;
+          </code>
+        </pre>
+        <pre class="block attributes">
+          <h3>Attributes</h3>
+          <ul>
+              <li>delay (Number)</li>
+              <li>speed (Number)</li>
+              <li>color (String)</li>
+              <li>width (String)</li>
+              <li>height (String)</li>
+          </ul>
+        </pre>
+      </div>
+
+      <scene-stwtext 
+        speed="100"
+        delay="0"
+        speed="10" 
+        width="1000px"
+        height="80vh">
+        Hace tiempo en una galaxia muy lejana...<br>
+        <br>
+        <br>
+        A lo lejos...
+        <br>
+        <br>
+        <img src="img/yoda.png" />
+      </scene-stwtext>
+    </div>
+  </body>
+</html>
