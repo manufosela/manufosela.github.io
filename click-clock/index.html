@@ -31,21 +31,29 @@
   <body>
     <div class="vertical-section-container centered">
       <h3>Basic click-clock Demo</h3>
+      <a href="https://github.com/manufosela/click-clock">Github</a>
+      <a href="https://www.npmjs.com/package/click-clock">NPM</a>
       <div class="blocks">
         <pre class="block code">
           <code>
-            &lt;click-clock&gt;&lt;/click-clock&gt;
+            &lt;click-clock num-digits="2" dot-size="20" max-value="30"&gt;&lt;/click-clock&gt;<br>
+            &lt;click-clock num-digits="3" dot-size="20" max-value="120"&gt;&lt;/click-clock&gt;<br>
+            &lt;click-clock num-digits="6" dot-size="16" max-value="999999"&gt;&lt;/click-clock&gt;<br>
           </code>
         </pre>
         <pre class="block attributes">
           <h3>Attributes</h3>
           <ul>
+            <li>dotSize (Number)</li>
             <li>maxValue (Number) [1-999]</li>
+            <li>numDigits (Number)</li>
           </ul>
         </pre>
       </div>
 
-      <click-clock style="--dot-size:10px" max-value="300"></click-clock>
+      <click-clock num-digits="2" dot-size="20" max-value="30"></click-clock>
+      <click-clock num-digits="3" dot-size="20" max-value="120"></click-clock>
+      <click-clock num-digits="6" dot-size="16" max-value="999999"></click-clock>
     </div>
   </body>
 </html>
