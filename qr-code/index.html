@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+  <head>
+    <title>qr-code demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script type="module" src="../qr-code.js"></script>
+    <style>
+      .blocks {
+        display:flex;
+        display-direction:row;
+        flex-wrap: wrap;
+      }
+      .block {
+        display:flex;
+        display-direction:column;
+        flex-wrap: wrap;
+        white-space: normal;
+      }
+      .code {
+        padding: 20px;
+        color:#FFF; 
+        background: #000;
+      }
+      .attributes {
+        padding-left: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Basic qr-code Demo</h3>
+      <div class="blocks">
+        <pre class="block code">
+          <code>
+            &lt;qr-code&gt;&lt;/qr-code&gt;
+          </code>
+        </pre>
+        <pre class="block attributes">
+          <h3>Attributes</h3>
+          <ul>
+            <li><b>text</b> <i>(String)</i> [default '']</li>
+            <li><b>showtext</b> <i>(Boolean)</i> [default false]</li>
+            <li><b>typeNumber</b> <i>(Number)</i> [default 4]</li>
+            <li><b>errorCorrectLevel</b> <i>(String)</i> [default 'L']</li>
+          </ul>
+        </pre>
+      </div>
+
+      <h2>Demo 1</h2>
+      <qr-code text="https://mi.url.com" showtext></qr-code>
+
+      <h2>Demo 2</h2>
+      <textarea id="msg" rows="3" cols="57">Texto a codificar</textarea>
+      <div>
+        Nivel de corrección de Error: <select id="eCL">
+          <option selected>L</option>
+          <option>M</option>
+          <option>Q</option>
+          <option>H</option>
+        </select>
+        Tamaño (1-10): <input type="text" value="1" id="tN" size="7" />
+
+        <select id="sT">
+            <option value="true">Mostrar texto</option>
+            <option value="false" selected>Ocultar texto</option>
+          </select>
+      </div>
+      <input type="button" value="Generar" id="genBtn">
+      <qr-code id="qrcode2"></qr-code>
+      <script>
+        document.getElementById("genBtn").onclick = function(e) {
+          var text = document.getElementById('msg').value;
+          var qr = document.getElementById('qrcode2');
+          var typeNumber = document.getElementById('tN').value;
+          var showText = (document.getElementById('sT').value === "true") ? true : false ;
+          typeNumber = (typeNumber > 10) ? 10 : (typeNumber < 1) ? 1 : typeNumber;
+          var errorCorrectLevel = document.getElementById('eCL').value;
+          qr.setShowText(showText);
+          qr.updateQrcode(text, typeNumber, errorCorrectLevel);
+        };
+        </script>
+    </div>
+  </body>
+</html>

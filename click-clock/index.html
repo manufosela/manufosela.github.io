@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head>
+    <title>click-clock demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script type="module" src="../click-clock.js"></script>
+    <style>
+      .blocks {
+        display:flex;
+        flex-direction:row;
+        flex-wrap: wrap;
+      }
+      .block {
+        display:flex;
+        flex-direction:column;
+        flex-wrap: wrap;
+        white-space: normal;
+      }
+      .code {
+        padding: 20px;
+        color:#FFF; 
+        background: #000;
+      }
+      .attributes {
+        padding-left: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Basic click-clock Demo</h3>
+      <div class="blocks">
+        <pre class="block code">
+          <code>
+            &lt;click-clock&gt;&lt;/click-clock&gt;
+          </code>
+        </pre>
+        <pre class="block attributes">
+          <h3>Attributes</h3>
+          <ul>
+            <li>maxValue (Number) [1-999]</li>
+          </ul>
+        </pre>
+      </div>
+
+      <click-clock style="--dot-size:10px" max-value="300"></click-clock>
+    </div>
+  </body>
+</html>

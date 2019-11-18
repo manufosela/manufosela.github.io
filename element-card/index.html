@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+    <style>
+      #first {
+        --font-size: 10px;
+      }
+    </style>
+    <title>element-card demo</title>  
+    <script type="module" src="js/element-card.min.js"></script>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Basic element-card demo</h3>
+      <element-card id="first">
+        <div>element-card by default</div>
+      </element-card>
+      <element-card id="second" 
+        title="Javascript"
+        description="Advocate. ES6, ES7, functional programming"
+        img-cover="js-logo.png"
+        cover-bgcolor="rgba(255, 255, 0, 0.3)"
+        text-color="#000">
+            <div class="group1" id="uno">
+              <nav-list 
+                title="YEARS EXPERIENCE" 
+                value=">10"
+                list="<3,3-5,5-10,>10"
+                fixed="true">
+              </nav-list>
+            </div>
+
+            <div class="group2" id="dos">
+              <h3>KNOWLEDGE</h3>
+              <span></span>
+              <circle-percent
+                percent="100"
+                title="REFERENCE KNOWLEDGE">
+              </circle-percent>
+              <circle-percent
+                percent="80"
+                title="FIRST KNOWLEDGE">
+              </circle-percent>
+              <circle-percent
+                percent="70"
+                title="SECOND KNOWLEDGE">
+              </circle-percent>
+            </div>
+            <div>
+              EL DIV IMPAR AL FINAL OCUPA LAS DOS COLUMNAS DEL GRID
+            </div>
+      </element-card>
+    </div>
+  </body>
+</html>

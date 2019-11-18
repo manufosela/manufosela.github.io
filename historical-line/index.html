@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+  <head>
+    <title>historical-line demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script type="module" src="js/historical-line.min.js"></script>
+    <style>
+      .blocks {
+        display:flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      .block {
+        display:flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        white-space: normal;
+      }
+      .code {
+        padding: 20px;
+        color:#FFF; 
+        background: #000;
+      }
+      .attributes {
+        padding-left: 20px;
+      }
+      historical-line {
+        margin-top:50px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Basic historical-line Demo</h3>
+      <div class="blocks">
+        <pre class="block code">
+          <code>
+            &lt;historical-line&gt;&lt;/historical-line&gt;
+          </code>
+        </pre>
+        <pre class="block attributes">
+          <h3>Attributes</h3>
+          <ul>
+            <li>title (String)</li>
+            <li>startYear (Number)</li>
+            <li>endYear (Number)</li>
+            <li>data (Array)</li>
+          </ul>
+          <h3>CSS Variables</h3>
+          <ul>
+            <li>--font-size</li>
+            <li>--title-color</li>
+          </ul>
+        </pre>
+      </div>
+
+      <historical-line id="HL1" title="Trabajos" startYear="1999" endYear="2019"></historical-line>
+      <script>
+        let jobData = [
+          {start: '10/1/1999', main: 'plus.es', desc: 'ASP, Javacript, HTML, CSS, XML, MSSQL', bg: '#E2007A'},
+          {start: '3/1/2002', main: 'eresmas.com/wanadoo.es)', desc: 'PHP, ASP, Java, Javascript, HTML, CSS, Apache, Linux, Tomcat, IIS, MySQL', bg: 'linear-gradient(to right, #0FAFA3 0%, rgba(15,175,163,0.3) 30%, rgba(199,0,47,0.3) 50%, rgba(199,0,47,1) 70%, #C7002F 100%)'},
+          {start: '10/1/2004', main: 'Grupo Marsans', desc: 'Perl, PHP, MySQL, HTML, CSS, Javascript', bg: '#A9114B'},
+          {start: '9/1/2006', main: 'Mirai', desc: 'PHP, Javascript, HTML, CSS, PostgreSQL, IBMDb2, XP, TDD', bg: '#ED2C38'},
+          {start: '9/1/2008', main: 'Orange', desc: 'Javascript, HTML, CSS, NodeJS, JQuery, PHP, MySQL, Oracle, Java', bg: '#FE6500'},
+          {start: '10/1/2015', main: 'KairosDS', desc: 'Javascript, Polymer, NodeJS, Team Leader, Dirección de equipos', bg: '#FF7900'}
+        ];
+        document.querySelector('#HL1').data = jobData;
+      </script>
+
+      <historical-line id="HL2" title="Estudios" startYear="1989" endYear="1999"></historical-line>
+      <script>
+        let jobData2 = [
+          {start: '9/1/1989', main: 'C.O.U.', desc: 'Especialidad: Ciencias Puras. Opt: Biologica y Química', bg: '#0083BA'},
+          {start: '9/1/1990', main: 'FP2: Electrónica', desc: 'Electronica Industrial. 3º-4º-5º', bg: '#FEDD0B'},
+          {start: '9/1/1992', main: 'Ing Telecomunicaciones', desc: 'Ingenieria de Telecomunicaciones: Esp. Sistemas de Telecomunicaciones', bg: 'rgba(128,64,0,0.7'},
+          {start: '9/1/1997', main: 'Ing Telecomunicaciones', desc: 'Ingenieria de Telecomunicaciones: Esp. Telemática', bg: 'rgb(128,64,0,0.8'},
+
+        ];
+        document.querySelector('#HL2').data = jobData2;
+      </script>
+
+      <historical-line id="HL3" title="Formación Complementaria" startYear="2012" endYear="2019"></historical-line>
+      <script>
+        let jobData3 = [
+          {start: '1/1/2013', main: '', desc: '<li>ATG1 Foundations of ATG Application Development Rel 10.1.2 Ed 1</li><li>ATG2 Extending the ATG Platform Rel 10.1.2 Ed 1</li><li>ATG3 Implementing Your ATG Commerce Solution Rel 10.1 Ed 1</li>', bg: '#FFF'},
+          {start: '1/1/2014', main: '', desc: '<li>ATG4 ATG Personalization and Scenario Development Rel 10 Ed 1</li><li>ATG5 Managing Your ATG Commerce Solution Rel 10.1 Ed 1</li>', bg: '#FFF'},
+          {start: '1/1/2015', main: '', desc: '', bg: '#FFF'},
+          {start: '1/1/2016', main: '', desc: '', bg: '#FFF'},
+          {start: '1/1/2017', main: '', desc: '', bg: '#FFF'},
+          {start: '1/1/2018', main: '', desc: 'Team Kanban Practitioner (TKP)', bg: '#FFF'},
+          {start: '1/1/2019', main: '', desc: '<li>Lean Change Managment</li><li>Management 3.0</li>', bg: '#FFF'}
+        ];
+        document.querySelector('#HL3').data = jobData3;
+      </script>
+    </div>
+  </body>
+</html>
