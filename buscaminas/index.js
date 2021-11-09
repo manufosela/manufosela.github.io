@@ -247,7 +247,7 @@ function checkWin() {
   return success === numMines;
 }
 
-export function cellClick(ev) {
+function cellClick(ev) {
   if (selected === 'flag') {
     // console.log(ev.detail.cellx, ev.detail.celly);
     if (boardStatus[ev.detail.cellx][ev.detail.celly] === 1) {
