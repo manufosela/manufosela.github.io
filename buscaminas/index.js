@@ -191,6 +191,20 @@ function gameOver(x, y) {
   showModal('You loose... BOMB!');
 }
 
+function confetti(){
+  var myCanvas = document.createElement('canvas');
+  document.appendChild(myCanvas);
+
+  var myConfetti = confetti.create(myCanvas, {
+    resize: true,
+    useWorker: true
+  });
+  myConfetti({
+    particleCount: 100,
+    spread: 160
+  });
+}
+
 function youWin() {
   console.warn('You Win!');
   confetti();
