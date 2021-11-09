@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import confetti from "https://cdn.skypack.dev/canvas-confetti";
-
 const idGame = 'Buscaminas Game';
 const numMines = 10;
 const boardSize = 10; // cells
@@ -249,7 +247,7 @@ function checkWin() {
   return success === numMines;
 }
 
-function cellClick(ev) {
+export function cellClick(ev) {
   if (selected === 'flag') {
     // console.log(ev.detail.cellx, ev.detail.celly);
     if (boardStatus[ev.detail.cellx][ev.detail.celly] === 1) {
