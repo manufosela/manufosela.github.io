@@ -193,9 +193,9 @@ function gameOver(x, y) {
 
 function confetti(){
   var myCanvas = document.createElement('canvas');
-  document.appendChild(myCanvas);
+  document.body.appendChild(myCanvas);
 
-  var myConfetti = confetti.create(myCanvas, {
+  var myConfetti = confetti().create(myCanvas, {
     resize: true,
     useWorker: true
   });
