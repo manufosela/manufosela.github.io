@@ -35,26 +35,26 @@
         padding: 0.5rem 1rem;
       }
     </style>
-    <script type="module">
-      import radarChart from "https://cdn.skypack.dev/@manufosela/radar-chart";
-    </script>
   </head>
   <body>
-    <h1>Mapa de Conocimiento Frontend</h1>
-    <h3>Basado en @manufosela/radar-chart webcomponent</h3>
     <div id="demo2">
       <div id="radarchart"></div>
       <div id="botonera"></div>
     </div>
 
+    <script type="module">
+      import { html, render } from "lit";
+      import "../radar-chart.js";
+    </script>
+
     <script>
       const labels = {};
       labels.frontend = [
-        "Javascript",
         "Typescript",
+        "Javascript",
         "HTML",
-        "Accesibilidad",
         "CSS",
+        "Accesibilidad",
         "Clean Code",
         "S.O.L.I.D.",
         "Arquitectura",
@@ -67,15 +67,19 @@
         "I18n",
         "P.W.A.",
       ];
+      const experienceMax = 10;
 
       function update(e) {
         const labels = [...document.querySelectorAll('[for^="label-"]')];
         const values = [...document.querySelectorAll('[id^="label-"]')];
+        const experiences = [
+          ...document.querySelectorAll('[id^="experience-"]'),
+        ];
         const dataLabels = labels.map((label) => {
           return label.innerText;
         });
         const dataValues = labels.map((label, i) => {
-          return values[i].value;
+          return values[i].value * experiences[i].value;
         });
 
         const radarChart = document.querySelector("#radarchart1");
@@ -95,9 +99,9 @@
         const radarChart = document.createElement("radar-chart");
         radarChart.id = "radarchart1";
         radarChart.setAttribute("side-size", "500");
-        radarChart.setAttribute("scale-max", "5");
+        radarChart.setAttribute("scale-max", "50");
         radarChart.setAttribute("scale-min", "0");
-        radarChart.setAttribute("scale-step", "1");
+        radarChart.setAttribute("scale-step", "5");
         radarChart.innerHTML = `
           <ul class="radar-chart__labels">
             ${labels.frontend.map(
@@ -113,18 +117,35 @@
         document.getElementById("radarchart").appendChild(radarChart);
       }
 
+      function createLegend() {
+        const div = document.createElement("div");
+        div.setAttribute("id", `layer-legend`);
+        div.classList.add("layer");
+        const label1 = document.createElement("span");
+        label1.classList.add("botonera__label");
+        const label2 = document.createElement("span");
+        label2.innerHTML = "Nivel";
+        const label3 = document.createElement("span");
+        label3.innerHTML = "Experiencia";
+        div.appendChild(label1);
+        div.appendChild(label2);
+        div.appendChild(label3);
+        document.querySelector("#botonera").appendChild(div);
+      }
+
       function createSelects() {
+        createLegend();
         labels.frontend.forEach((label, index) => {
           const div = document.createElement("div");
-          div.setAttribute("id", `layer-${label}`);
+          div.setAttribute("id", `layer-${label}${index}`);
           div.classList.add("layer");
           const labelHTML = document.createElement("label");
           labelHTML.innerText = label;
-          labelHTML.setAttribute("for", `label-${label}`);
+          labelHTML.setAttribute("for", `label-${label}${index}`);
           labelHTML.classList.add("botonera__label");
           const select = document.createElement("select");
-          select.id = `label-${label}`;
-          select.setAttribute("name", label);
+          select.id = `label-${label}${index}`;
+          select.setAttribute("name", `label-${label}`);
           select.innerHTML = `
             <option value="0" selected>0</option>
             <option value="1">1</option>
@@ -133,8 +154,25 @@
             <option value="4">4</option>
             <option value="5">5</option>
           `;
+          const selectExperience = document.createElement("select");
+          selectExperience.id = `experience-${label}${index}`;
+          selectExperience.setAttribute("name", `experience-${label}`);
+          selectExperience.innerHTML = `
+            <option value="0" selected>0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10 o +</option>
+          `;
           div.appendChild(labelHTML);
           div.appendChild(select);
+          div.appendChild(selectExperience);
           document.querySelector("#botonera").appendChild(div);
         });
         const button = document.createElement("button");
