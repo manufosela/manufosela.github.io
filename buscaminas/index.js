@@ -16,7 +16,7 @@ const idGame = 'Buscaminas Game';
 const numMines = 10;
 const boardSize = 10; // cells
 const cellSize = 50; // px
-let flagCounter = 0;
+let flagCounter;
 let board;
 let boardDrawed;
 let boardStatus;
@@ -34,7 +34,7 @@ const texture4 = 'imagenes/texture4.png';
 const texture5 = 'imagenes/texture5.png';
 
 let selected = 'grass';
-const status = {
+const statuses = {
   texture,
   grass: grassImage,
   flag: flagImage,
@@ -90,7 +90,7 @@ function getArrayCells(rows, cols, content) {
 }
 
 function resetArrays() {
-  boardDrawed = getArrayCells(boardSize, boardSize, status.texture);
+  boardDrawed = getArrayCells(boardSize, boardSize, statuses.texture);
   boardStatus = getArrayCells(boardSize, boardSize, 0); // 0: nothing, 1: flag, 2: dude
   boardMines = getArrayCells(boardSize, boardSize, 0); // Store mines, and count mines around. Mine is M. Number 0 to 9 number mines around.
 }
@@ -155,6 +155,7 @@ function restartGame() {
   dialog.close();
   resetArrays();
   initBoard();
+  flagCounter = 0;
   const enableBoardClick = new CustomEvent(
     'board-cell-enable-board-click',
     {
@@ -164,6 +165,7 @@ function restartGame() {
     }
   );
   document.dispatchEvent(enableBoardClick);
+  document.getElementById('numMinesRemaining').innerHTML = numMines - flagCounter;  
 }
 
 function showModal(message) {
@@ -178,7 +180,7 @@ function showModal(message) {
 
 function gameOver(x, y) {
   console.warn('You loose... BOMB!');
-  changeCellContent(x, y, status.mineexplode);
+  changeCellContent(x, y, statuses.mineexplode);
   const disableBoardClick = new CustomEvent(
     'board-cell-disable-board-click',
     {
@@ -207,13 +209,13 @@ function youWin() {
 }
 
 function uncoverCells(x, y) {
-  if (boardDrawed[x][y] === status.texture) {
+  if (boardDrawed[x][y] === statuses.texture) {
     if (boardMines[x][y] === 'M') {
       gameOver(x, y);
     } else if (boardMines[x][y] !== 0) {
       changeCellContent(x, y, textures[boardMines[x][y]]);
     } else {
-      boardDrawed[x][y] = status.grass;
+      boardDrawed[x][y] = statuses.grass;
       changeCellContent(x, y, boardDrawed[x][y]);
       for (let offsetX = -1; offsetX <= 1; offsetX += 1) {
         for (let offsetY = -1; offsetY <= 1; offsetY += 1) {
@@ -222,7 +224,7 @@ function uncoverCells(x, y) {
             x + offsetX < boardSize &&
             y + offsetY >= 0 &&
             y + offsetY < boardSize &&
-            boardDrawed[x + offsetX][y + offsetY] === status.texture
+            boardDrawed[x + offsetX][y + offsetY] === statuses.texture
           ) {
             uncoverCells(x + offsetX, y + offsetY);
           }
@@ -237,7 +239,7 @@ function checkWin() {
   for (let row = 0; row < boardSize; row += 1) {
     for (let col = 0; col < boardSize; col += 1) {
       if (
-        boardDrawed[row][col] === status.flag &&
+        boardDrawed[row][col] === statuses.flag &&
         boardMines[row][col] === 'M'
       ) {
         success += 1;
@@ -251,11 +253,11 @@ function cellClick(ev) {
   if (selected === 'flag') {
     // console.log(ev.detail.cellx, ev.detail.celly);
     if (boardStatus[ev.detail.cellx][ev.detail.celly] === 1) {
-      changeCellContent(ev.detail.cellx, ev.detail.celly, status.texture);
+      changeCellContent(ev.detail.cellx, ev.detail.celly, statuses.texture);
       flagCounter -= 1;
       boardStatus[ev.detail.cellx][ev.detail.celly] = 0;
-    } else {
-      changeCellContent(ev.detail.cellx, ev.detail.celly, status.flag);
+    } else if(flagCounter < numMines) {
+      changeCellContent(ev.detail.cellx, ev.detail.celly, statuses.flag);
       if (flagCounter < numMines) {
         flagCounter += 1;
         boardStatus[ev.detail.cellx][ev.detail.celly] = 1;
@@ -290,6 +292,7 @@ function createBoard(parentNode) {
 
 function init() {
   resetArrays();
+  flagCounter = 0;
   board = createBoard(document.getElementById('game'));
   document.addEventListener('wc-ready', initBoardEvent);
 
