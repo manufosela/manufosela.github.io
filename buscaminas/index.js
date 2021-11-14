@@ -15,7 +15,7 @@
 const idGame = 'Buscaminas Game';
 const numMines = 10;
 const boardSize = 10; // cells
-const cellSize = 50; // px
+let cellSize = 50; // px
 let flagCounter;
 let board;
 let boardDrawed;
@@ -250,28 +250,30 @@ function checkWin() {
 }
 
 function cellClick(ev) {
-  if (selected === 'flag') {
-    // console.log(ev.detail.cellx, ev.detail.celly);
-    if (boardStatus[ev.detail.cellx][ev.detail.celly] === 1) {
-      changeCellContent(ev.detail.cellx, ev.detail.celly, statuses.texture);
-      flagCounter -= 1;
-      boardStatus[ev.detail.cellx][ev.detail.celly] = 0;
-    } else if(flagCounter < numMines) {
-      changeCellContent(ev.detail.cellx, ev.detail.celly, statuses.flag);
-      if (flagCounter < numMines) {
-        flagCounter += 1;
-        boardStatus[ev.detail.cellx][ev.detail.celly] = 1;
+  if (boardDrawed[ev.detail.cellx][ev.detail.celly] === statuses.texture) {
+    if (selected === 'flag') {
+      // console.log(ev.detail.cellx, ev.detail.celly);
+      if (boardStatus[ev.detail.cellx][ev.detail.celly] === 1) {
+        changeCellContent(ev.detail.cellx, ev.detail.celly, statuses.texture);
+        flagCounter -= 1;
+        boardStatus[ev.detail.cellx][ev.detail.celly] = 0;
+      } else if(flagCounter < numMines) {
+        changeCellContent(ev.detail.cellx, ev.detail.celly, statuses.flag);
+        if (flagCounter < numMines) {
+          flagCounter += 1;
+          boardStatus[ev.detail.cellx][ev.detail.celly] = 1;
+        }
       }
-    }
-    document.getElementById('numMinesRemaining').innerHTML =
-      numMines - flagCounter;
-    if (numMines - flagCounter === 0) {
-      if (checkWin()) {
-        youWin();
+      document.getElementById('numMinesRemaining').innerHTML =
+        numMines - flagCounter;
+      if (numMines - flagCounter === 0) {
+        if (checkWin()) {
+          youWin();
+        }
       }
+    } else {
+      uncoverCells(ev.detail.cellx, ev.detail.celly);
     }
-  } else {
-    uncoverCells(ev.detail.cellx, ev.detail.celly);
   }
 }
 
@@ -290,7 +292,20 @@ function createBoard(parentNode) {
   return boardCellElement;
 }
 
+function getWindowSize() {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  return {
+    width,
+    height,
+  };
+}
+
 function init() {
+  const windowSize = getWindowSize();
+  if (windowSize.width < boardSize * cellSize) {
+    cellSize = windowSize.width / boardSize - 5;
+  }
   resetArrays();
   flagCounter = 0;
   board = createBoard(document.getElementById('game'));
