@@ -250,32 +250,31 @@ function checkWin() {
 }
 
 function cellClick(ev) {
-  if (boardDrawed[ev.detail.cellx][ev.detail.celly] === statuses.texture) {
-    if (selected === 'flag') {
-      // console.log(ev.detail.cellx, ev.detail.celly);
-      if (boardStatus[ev.detail.cellx][ev.detail.celly] === 1) {
-        changeCellContent(ev.detail.cellx, ev.detail.celly, statuses.texture);
-        flagCounter -= 1;
-        boardStatus[ev.detail.cellx][ev.detail.celly] = 0;
-      } else if(flagCounter < numMines) {
-        changeCellContent(ev.detail.cellx, ev.detail.celly, statuses.flag);
-        if (flagCounter < numMines) {
-          flagCounter += 1;
-          boardStatus[ev.detail.cellx][ev.detail.celly] = 1;
-        }
+  const hasDrawed = boardDrawed[ev.detail.cellx][ev.detail.celly] !== statuses.texture;
+  if (selected === 'flag') {
+    // console.log(ev.detail.cellx, ev.detail.celly);
+    if (boardStatus[ev.detail.cellx][ev.detail.celly] === 1) {
+      changeCellContent(ev.detail.cellx, ev.detail.celly, statuses.texture);
+      flagCounter -= 1;
+      boardStatus[ev.detail.cellx][ev.detail.celly] = 0;
+    } else if(flagCounter < numMines && !hasDrawed) {
+      changeCellContent(ev.detail.cellx, ev.detail.celly, statuses.flag);
+      if (flagCounter < numMines) {
+        flagCounter += 1;
+        boardStatus[ev.detail.cellx][ev.detail.celly] = 1;
       }
-      document.getElementById('numMinesRemaining').innerHTML =
-        numMines - flagCounter;
-      if (numMines - flagCounter === 0) {
-        if (checkWin()) {
-          youWin();
-        }
-      }
-    } else {
-      uncoverCells(ev.detail.cellx, ev.detail.celly);
     }
+    document.getElementById('numMinesRemaining').innerHTML =
+      numMines - flagCounter;
+    if (numMines - flagCounter === 0) {
+      if (checkWin()) {
+        youWin();
+      }
+    }
+  } else {
+    uncoverCells(ev.detail.cellx, ev.detail.celly);
   }
-}
+  }
 
 function createBoard(parentNode) {
   const boardCellElement = document.createElement('board-cell');
