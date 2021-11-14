@@ -274,7 +274,7 @@ function cellClick(ev) {
   } else {
     uncoverCells(ev.detail.cellx, ev.detail.celly);
   }
-  }
+}
 
 function createBoard(parentNode) {
   const boardCellElement = document.createElement('board-cell');
