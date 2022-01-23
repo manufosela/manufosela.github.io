@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <section id="info">
+      <h1>Inner planets</h1>
+      <button id="innerPlanetsBtn">Inner Planets</button>
+      <button id="allSolarSystemBtn">All Solar system</button>
+    </section>
+    <section id="demo">
+      <animation-solarsystem
+        radio-base="350"
+        width="1200"
+        height="1100"
+        radio-planet-base="15"
+        period-planet-base="15"
+      ></animation-solarsystem>
+    </section>
+
+    <script type="module">
+      import manufoselaAnimationSolarsystem from "https://cdn.skypack.dev/@manufosela/animation-solarsystem";
+
+      function init() {
+        const innerPlanetsBtn = document.querySelector("#innerPlanetsBtn");
+        const allSolarSystemBtn = document.querySelector("#allSolarSystemBtn");
+
+        innerPlanetsBtn.addEventListener("click", () => {
+          const animationSolarsystem = document.createElement(
+            "animation-solarsystem"
+          );
+          animationSolarsystem.setAttribute("radio-base", "350");
+          animationSolarsystem.setAttribute("radio-planet-base", "15");
+          animationSolarsystem.setAttribute("period-planet-base", "15");
+          animationSolarsystem.setAttribute("width", "1200");
+          animationSolarsystem.setAttribute("height", "1100");
+          document.querySelector("h1").innerText = "Inner planets";
+          document.querySelector("animation-solarsystem").remove();
+          document.querySelector("#demo").appendChild(animationSolarsystem);
+        });
+
+        allSolarSystemBtn.addEventListener("click", () => {
+          const animationSolarsystem = document.createElement(
+            "animation-solarsystem"
+          );
+          animationSolarsystem.setAttribute("radio-base", "45");
+          animationSolarsystem.setAttribute("radio-planet-base", "4");
+          animationSolarsystem.setAttribute("period-planet-base", "15");
+          animationSolarsystem.setAttribute("width", "2000");
+          animationSolarsystem.setAttribute("height", "1800");
+          document.querySelector("h1").innerText = "All Solar system";
+          document.querySelector("animation-solarsystem").remove();
+          document.querySelector("#demo").appendChild(animationSolarsystem);
+        });
+      }
+
+      window.onload = init();
+    </script>
+  </body>
+</html>
