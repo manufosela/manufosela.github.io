@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>capture-image demo</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes"
+    />
+    <style>
+      #demo {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      canvas-polygon {
+        margin: 1rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="demo">
+      <canvas-polygon size="200" sides="4" bg-color="red"></canvas-polygon>
+      <canvas-polygon size="200" sides="3" bg-color="green"></canvas-polygon>
+      <canvas-polygon size="200" sides="5" bg-color="blue"></canvas-polygon>
+      <canvas-polygon size="200" sides="6" bg-color="yellow"></canvas-polygon>
+      <canvas-polygon size="200" sides="25" bg-color="orange"></canvas-polygon>
+    </div>
+    <script
+      type="module"
+      src="https://www.unpkg.com/@manufosela/canvas-polygon@1.0.0/canvas-polygon.js"
+    ></script>
+  </body>
+</html>
