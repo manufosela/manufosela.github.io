@@ -1,83 +1,306 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>GitHub Pages - Examples</title>
+    <title>manufosela - Component Catalog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0f1117;
+        --bg-2: #151a26;
+        --card: #1c2233;
+        --accent: #ffb000;
+        --accent-2: #00d0ff;
+        --text: #f3f6ff;
+        --muted: #b8c0d9;
+        --line: #2b3247;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        color: var(--text);
+        background: radial-gradient(circle at 10% 10%, #1a2136, transparent 50%),
+          radial-gradient(circle at 80% 0%, #1d1b34, transparent 45%),
+          linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+        font-family: "Space Grotesk", "Trebuchet MS", Arial, sans-serif;
+      }
+
+      header {
+        padding: 48px 24px 24px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      .hero {
+        display: grid;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .hero h1 {
+        margin: 0;
+        font-size: clamp(32px, 5vw, 56px);
+        letter-spacing: -0.02em;
+      }
+
+      .hero p {
+        margin: 0;
+        color: var(--muted);
+        font-size: clamp(16px, 2.2vw, 20px);
+        max-width: 720px;
+      }
+
+      .hero-cta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 12px;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 600;
+        border: 1px solid transparent;
+        transition: transform 0.2s ease, border-color 0.2s ease;
+      }
+
+      .btn-primary {
+        background: linear-gradient(120deg, var(--accent), #ff6a00);
+        color: #111;
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: var(--text);
+        border-color: var(--line);
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        border-color: var(--accent-2);
+      }
+
+      main {
+        padding: 32px 24px 64px;
+      }
+
+      section {
+        margin: 32px 0 48px;
+      }
+
+      section h2 {
+        margin: 0 0 16px;
+        font-size: 24px;
+        letter-spacing: -0.01em;
+      }
+
+      .grid {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 18px;
+        display: grid;
+        gap: 12px;
+        min-height: 150px;
+      }
+
+      .card h3 {
+        margin: 0;
+        font-size: 18px;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .card a {
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .tag {
+        display: inline-flex;
+        padding: 4px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .list a {
+        display: block;
+        padding: 10px 14px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        text-decoration: none;
+        color: var(--text);
+        background: rgba(28, 34, 51, 0.6);
+        transition: border-color 0.2s ease, transform 0.2s ease;
+      }
+
+      .list a:hover {
+        border-color: var(--accent);
+        transform: translateX(4px);
+      }
+
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 20px 24px 40px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      @media (max-width: 700px) {
+        header {
+          padding-top: 32px;
+        }
+        .hero-cta {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
   </head>
   <body>
-    <h1>Lit Element Catalog</h1>
-    <h2>Repositories</h2>
-    <ul>
-      <li>
-        <a href="https://github.com/manufosela/ui-components">ui-components</a>
-      </li>
-      <li><a href="https://github.com/manufosela/utils">utils</a></li>
-    </ul>
-    <h2>Demos</h2>
-    <li>
-      <a href="automatic-form-validation/index.html"
-        >Demo automatic-form-validation (basic form validation)</a
-      >
-    </li>
-    <li>
-      <a href="scene-protonimg/index.html"
-        >Demo scene-protonimg (images drawed with particles)</a
-      >
-    </li>
-    <li>
-      <a href="scene-stwtext/index.html">Demo scene-stwtext (starwars text)</a>
-    </li>
-    <li>
-      <a href="click-clock/index.html">Demo click-clock (countdown clock)</a>
-    </li>
-    <li>
-      <a href="capture-image/index.html"
-        >Demo capture-image (webcam capture image)</a
-      >
-    </li>
-    <li>
-      <a href="circle-percent/index.html"
-        >Demo circle-percent (circle with percent value drawed)</a
-      >
-    </li>
-    <li>
-      <a href="element-card/index.html">Demo element-card (card with data)</a>
-    </li>
-    <li>
-      <a href="historical-line/index.html"
-        >Demo historical-line (historical line of data)</a
-      >
-    </li>
-    <li>
-      <a href="marked-calendar/index.html"
-        >Demo marked-calendar (calendar to mark dates)</a
-      >
-    </li>
-    <li><a href="qr-code/index.html">Demo qr-code (QR code generator)</a></li>
-    <li>
-      <a href="stars-rating/index.html">Demo rating with stars and icons</a>
-    </li>
-    <li>
-      <a href="multi-carousel/index.html"
-        >Demo multi carousel with master and slaves</a
-      >
-    </li>
-    <li>
-      <a href="buscaminas/index.html">Buscaminas using board-cell component</a>
-    </li>
-    <li>
-      <a href="mapa-conocimiento/index.html"
-        >Knowledge map using @manufosela/radar-chart</a
-      >
-    </li>
-    <li>
-      <a href="animation-solarsystem/index.html"
-        >Demo of @manufosela/animation-solarsystem</a
-      >
-    </li>
-    <li>
-      <a href="canvas-polygon/index.html">Demo of @manufosela/canvas-polygon</a>
-    </li>
+    <header>
+      <div class="wrap hero">
+        <span class="tag">Component Catalog</span>
+        <h1>manufosela demos and UI library showcase</h1>
+        <p>
+          A curated set of web components, utilities, and front-end experiments.
+          Focused on lightweight, standards-first implementations with clean demos.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="automatic-form-validation/index.html"
+            >Open autoform demo</a
+          >
+          <a class="btn btn-secondary" href="https://github.com/manufosela/ui-components"
+            >ui-components repo</a
+          >
+          <a class="btn btn-secondary" href="https://github.com/manufosela/utils"
+            >utils repo</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="wrap">
+        <section>
+          <h2>Featured demos</h2>
+          <div class="grid">
+            <div class="card">
+              <span class="tag">Form validation</span>
+              <h3>Automatic Form Validation</h3>
+              <p>
+                Dependency-free form validation using data attributes, built for
+                modern browsers with accessibility in mind.
+              </p>
+              <a href="automatic-form-validation/index.html">Launch demo</a>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Repositories</h2>
+          <div class="grid">
+            <div class="card">
+              <span class="tag">UI components</span>
+              <h3>ui-components</h3>
+              <p>
+                Rich set of reusable UI web components: carousels, dialogs,
+                charts, sliders, and more.
+              </p>
+              <a href="https://github.com/manufosela/ui-components">View repo</a>
+            </div>
+            <div class="card">
+              <span class="tag">Utilities</span>
+              <h3>utils</h3>
+              <p>
+                Monorepo with small, focused libraries: events, storage helpers,
+                URL tools, and more.
+              </p>
+              <a href="https://github.com/manufosela/utils">View repo</a>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>OTRAS demos</h2>
+          <div class="list">
+            <a href="scene-protonimg/index.html"
+              >Demo scene-protonimg (images drawed with particles)</a
+            >
+            <a href="scene-stwtext/index.html">Demo scene-stwtext (starwars text)</a>
+            <a href="click-clock/index.html">Demo click-clock (countdown clock)</a>
+            <a href="capture-image/index.html"
+              >Demo capture-image (webcam capture image)</a
+            >
+            <a href="circle-percent/index.html"
+              >Demo circle-percent (circle with percent value drawed)</a
+            >
+            <a href="element-card/index.html">Demo element-card (card with data)</a>
+            <a href="historical-line/index.html"
+              >Demo historical-line (historical line of data)</a
+            >
+            <a href="marked-calendar/index.html"
+              >Demo marked-calendar (calendar to mark dates)</a
+            >
+            <a href="qr-code/index.html">Demo qr-code (QR code generator)</a>
+            <a href="stars-rating/index.html">Demo rating with stars and icons</a>
+            <a href="multi-carousel/index.html"
+              >Demo multi carousel with master and slaves</a
+            >
+            <a href="buscaminas/index.html">Buscaminas using board-cell component</a>
+            <a href="mapa-conocimiento/index.html"
+              >Knowledge map using @manufosela/radar-chart</a
+            >
+            <a href="animation-solarsystem/index.html"
+              >Demo of @manufosela/animation-solarsystem</a
+            >
+            <a href="canvas-polygon/index.html">Demo of @manufosela/canvas-polygon</a>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="wrap">Last update: 2026</div>
+    </footer>
   </body>
 </html>
