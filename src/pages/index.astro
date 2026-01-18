@@ -1,0 +1,38 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { siteConfig } from "../data/site";
+import { catalogs } from "../data/catalogs";
+import { demos } from "../data/demos";
+---
+<BaseLayout title={siteConfig.title} navTitle={siteConfig.title}>
+  <h1 class="page-title">{siteConfig.title}</h1>
+  <p class="page-subtitle">{siteConfig.description}</p>
+
+  <section>
+    <h2 class="page-title" style="font-size: 2rem; margin-top: 36px;">Catalogs</h2>
+    <p class="page-subtitle">Design systems, utilities, and focused component libraries.</p>
+    <div class="card-grid">
+      {catalogs.map((catalog) => (
+        <a class="card" href={catalog.href}>
+          <span class="tag">Catalog</span>
+          <h3>{catalog.title}</h3>
+          <p>{catalog.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section>
+    <h2 class="page-title" style="font-size: 2rem; margin-top: 48px;">Other Demos</h2>
+    <p class="page-subtitle">Explorations, experiments, and one-off concepts.</p>
+    <div class="card-grid">
+      {demos.map((demo) => (
+        <a class="card" href={demo.href}>
+          <span class="tag">Demo</span>
+          <h3>{demo.title}</h3>
+          <p>{demo.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
