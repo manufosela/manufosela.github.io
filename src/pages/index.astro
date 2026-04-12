@@ -3,34 +3,64 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { siteConfig } from "../data/site";
 import { catalogs } from "../data/catalogs";
 import { demos } from "../data/demos";
+
+// Mark the first catalog as featured (wide) to break the grid symmetry
+const [firstCatalog, ...restCatalogs] = catalogs;
 ---
 <BaseLayout title={siteConfig.title} navTitle={siteConfig.title}>
-  <h1 class="page-title">{siteConfig.title}</h1>
-  <p class="page-subtitle">{siteConfig.description}</p>
+  <section class="hero">
+    <span class="eyebrow">Web Components / Design Systems</span>
+    <h1 class="display-large">
+      Design-focused<br />web components<br />
+      <span class="mint-underline">built with care.</span>
+    </h1>
+    <p class="lead">{siteConfig.description}</p>
+  </section>
 
   <section>
-    <h2 class="page-title" style="font-size: 2rem; margin-top: 36px;">Catalogs</h2>
-    <p class="page-subtitle">Design systems, utilities, and focused component libraries.</p>
-    <div class="card-grid">
-      {catalogs.map((catalog) => (
+    <div class="section-header">
+      <h2 class="headline-medium">Catalogs</h2>
+      <p>Design systems, utilities, and focused component libraries. Each catalog has live demos, playgrounds, and accessibility built-in.</p>
+    </div>
+    <div class="bento">
+      <a class="card wide featured" href={firstCatalog.href}>
+        <span class="tag">Catalog / Flagship</span>
+        <h3>{firstCatalog.title}</h3>
+        <p>{firstCatalog.description}</p>
+        <div class="card-meta">
+          <span class="label">Explore</span>
+          <span class="card-arrow">&rarr;</span>
+        </div>
+      </a>
+      {restCatalogs.map((catalog) => (
         <a class="card" href={catalog.href}>
           <span class="tag">Catalog</span>
           <h3>{catalog.title}</h3>
           <p>{catalog.description}</p>
+          <div class="card-meta">
+            <span class="label">Explore</span>
+            <span class="card-arrow">&rarr;</span>
+          </div>
         </a>
       ))}
     </div>
   </section>
 
   <section>
-    <h2 class="page-title" style="font-size: 2rem; margin-top: 48px;">Other Demos</h2>
-    <p class="page-subtitle">Explorations, experiments, and one-off concepts.</p>
-    <div class="card-grid">
+    <div class="section-header">
+      <h2 class="headline-medium">Other Demos</h2>
+      <p>Explorations, experiments, and one-off concepts — quick ideas that became interactive pieces.</p>
+    </div>
+    <div class="bento">
       {demos.map((demo) => (
         <a class="card" href={demo.href}>
           <span class="tag">Demo</span>
           <h3>{demo.title}</h3>
           <p>{demo.description}</p>
+          <div class="card-meta">
+            <span class="label">Open</span>
+            <span class="card-arrow">&rarr;</span>
+          </div>
         </a>
       ))}
     </div>
