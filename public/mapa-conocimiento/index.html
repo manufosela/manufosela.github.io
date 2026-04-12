@@ -1,191 +1,392 @@
-<!--
- Copyright 2021 manufosela
- 
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
-     http://www.apache.org/licenses/LICENSE-2.0
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mapa de Conocimiento — Frontend Skill Radar</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script type="importmap">
+      {
+        "imports": {
+          "lit": "https://esm.sh/lit@3",
+          "lit/": "https://esm.sh/lit@3/"
+        }
+      }
+    </script>
     <style>
+      :root {
+        --surface: #131313;
+        --surface-container-low: #1c1b1b;
+        --surface-container: #201f1f;
+        --surface-container-high: #2a2a2a;
+        --primary: #00e0b3;
+        --primary-fixed: #00ffcc;
+        --on-surface: #f4f5f2;
+        --on-surface-variant: #b9cbc2;
+        --on-surface-dim: #8a9790;
+        --mint-gradient: linear-gradient(135deg, #00e0b3 0%, #00ffcc 100%);
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
       body {
-        background: #fafafa;
+        background: var(--surface);
+        color: var(--on-surface);
+        font-family: "Inter", system-ui, sans-serif;
+        min-height: 100vh;
+        padding: 2.5rem 2rem 4rem;
       }
-      #demo2 {
-        display: flex;
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
       }
-      .layer {
+      header {
+        margin-bottom: 3rem;
+      }
+      .eyebrow {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--primary);
+        margin-bottom: 1rem;
+      }
+      h1 {
+        font-family: "Manrope", system-ui, sans-serif;
+        font-size: clamp(2rem, 1.25rem + 2.5vw, 3rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.05;
+        margin-bottom: 1rem;
+      }
+      h1 .mint {
+        background: var(--mint-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .lead {
+        color: var(--on-surface-variant);
+        font-size: 1rem;
+        max-width: 60ch;
+        line-height: 1.65;
+      }
+      .back-link {
+        font-size: 0.85rem;
+        color: var(--on-surface-dim);
+        text-decoration: none;
+        margin-bottom: 1.5rem;
+        display: inline-block;
+      }
+      .back-link:hover { color: var(--primary); }
+      .content {
+        display: grid;
+        grid-template-columns: minmax(320px, 1fr) 1.2fr;
+        gap: 2rem;
+        align-items: start;
+      }
+      @media (max-width: 900px) {
+        .content { grid-template-columns: 1fr; }
+      }
+      .panel {
+        background: var(--surface-container-low);
+        border-radius: 1rem;
+        padding: 2rem;
+      }
+      .panel h2 {
+        font-family: "Manrope", system-ui, sans-serif;
+        font-size: 1.25rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        margin-bottom: 0.25rem;
+      }
+      .panel p.hint {
+        color: var(--on-surface-dim);
+        font-size: 0.85rem;
+        margin-bottom: 1.5rem;
+      }
+      .skills-header {
+        display: grid;
+        grid-template-columns: 1fr 4.5rem 4.5rem;
+        gap: 0.75rem;
+        padding: 0 0.5rem 0.75rem;
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: var(--on-surface-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .skill-row {
+        display: grid;
+        grid-template-columns: 1fr 4.5rem 4.5rem;
+        gap: 0.75rem;
+        align-items: center;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        transition: background 200ms ease-out;
+      }
+      .skill-row:hover {
+        background: var(--surface-container-high);
+      }
+      .skill-row label {
+        font-size: 0.9rem;
+        color: var(--on-surface);
+      }
+      .skill-row select {
+        background: var(--surface-container);
+        color: var(--on-surface);
+        border: 1px solid rgba(58, 74, 68, 0.25);
+        border-radius: 0.375rem;
+        padding: 0.375rem 0.5rem;
+        font-family: "Inter", system-ui, sans-serif;
+        font-size: 0.85rem;
+        cursor: pointer;
+      }
+      .skill-row select:focus {
+        outline: none;
+        border-color: var(--primary);
+      }
+      .controls {
+        margin-top: 1.5rem;
         display: flex;
-        justify-content: flex-start;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+      button {
+        font-family: "Inter", system-ui, sans-serif;
+        font-size: 0.85rem;
+        font-weight: 600;
+        padding: 0.625rem 1.25rem;
+        border-radius: 0.5rem;
+        border: none;
+        cursor: pointer;
+        transition: transform 150ms ease-out, box-shadow 150ms ease-out;
+      }
+      button.primary {
+        background: var(--mint-gradient);
+        color: #003327;
+      }
+      button.primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(0, 224, 179, 0.25);
+      }
+      button.ghost {
+        background: transparent;
+        color: var(--on-surface-variant);
+        border: 1px solid rgba(58, 74, 68, 0.35);
+      }
+      button.ghost:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--on-surface);
+      }
+      .chart-panel {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      radar-chart {
+        --radar-size: min(540px, 80vw);
+        --radar-bg: transparent;
+        --radar-grid-color: rgba(185, 203, 194, 0.15);
+        --radar-axis-color: rgba(185, 203, 194, 0.35);
+        --radar-label-color: #b9cbc2;
+      }
+      .chart-meta {
+        margin-top: 1.25rem;
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        font-size: 0.8rem;
+        color: var(--on-surface-variant);
+      }
+      .chart-meta .stat {
+        display: flex;
+        flex-direction: column;
         align-items: center;
       }
-      .botonera__label {
-        display: flex;
-        width: 10rem;
-        padding: 0.5rem 1rem;
+      .chart-meta .stat-value {
+        font-family: "Manrope", system-ui, sans-serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+      }
+      .chart-meta .stat-label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
       }
     </style>
   </head>
   <body>
-    <div id="demo2">
-      <div id="radarchart"></div>
-      <div id="botonera"></div>
+    <div class="container">
+      <header>
+        <a class="back-link" href="../">&larr; Back to components</a>
+        <span class="eyebrow">Demo / Skills Visualization</span>
+        <h1>
+          Mapa de <span class="mint">conocimiento</span>
+        </h1>
+        <p class="lead">
+          Visualiza tu perfil frontend en forma de radar: nivel de dominio (0-5) × años
+          de experiencia (0-10). Arrastra los selectores para reflejar tu perfil real.
+        </p>
+      </header>
+
+      <div class="content">
+        <div class="panel">
+          <h2>Skills</h2>
+          <p class="hint">Se actualiza automáticamente al cambiar cualquier valor.</p>
+
+          <div class="skills-header">
+            <span>Skill</span>
+            <span>Nivel</span>
+            <span>Experiencia</span>
+          </div>
+          <div id="skills-list"></div>
+
+          <div class="controls">
+            <button class="primary" id="presetBtn" type="button">Preset: Senior Frontend</button>
+            <button class="ghost" id="resetBtn" type="button">Reset</button>
+          </div>
+        </div>
+
+        <div class="panel chart-panel">
+          <radar-chart
+            id="chart"
+            max-value="50"
+            levels="5"
+            show-dots
+            show-values
+            fill-opacity="0.35"
+          ></radar-chart>
+          <div class="chart-meta">
+            <div class="stat">
+              <span class="stat-value" id="totalScore">—</span>
+              <span class="stat-label">Total</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value" id="peakSkill">—</span>
+              <span class="stat-label">Top Skill</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value" id="avgLevel">—</span>
+              <span class="stat-label">Nivel medio</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
+    <script type="module" src="https://esm.sh/@manufosela/radar-chart@2"></script>
     <script type="module">
-      import adarChart from "https://cdn.skypack.dev/@manufosela/radar-chart";
-    </script>
-
-    <script>
-      const labels = {};
-      labels.frontend = [
-        "Typescript",
-        "Javascript",
-        "HTML",
-        "CSS",
-        "Accesibilidad",
-        "Clean Code",
-        "S.O.L.I.D.",
-        "Arquitectura",
-        "Patrones de diseño",
-        "Principios de diseño",
-        "Git",
-        "Tests Unitarios",
-        "Tests Funcionales",
-        "Tests End2End",
-        "I18n",
-        "P.W.A.",
+      const skills = [
+        { name: "Typescript", level: 4, exp: 6 },
+        { name: "Javascript", level: 5, exp: 10 },
+        { name: "HTML", level: 5, exp: 10 },
+        { name: "CSS", level: 5, exp: 10 },
+        { name: "Accesibilidad", level: 4, exp: 7 },
+        { name: "Clean Code", level: 4, exp: 8 },
+        { name: "S.O.L.I.D.", level: 4, exp: 7 },
+        { name: "Arquitectura", level: 4, exp: 8 },
+        { name: "Patrones de diseño", level: 4, exp: 7 },
+        { name: "Principios de diseño", level: 3, exp: 6 },
+        { name: "Git", level: 5, exp: 10 },
+        { name: "Tests Unitarios", level: 4, exp: 7 },
+        { name: "Tests Funcionales", level: 3, exp: 5 },
+        { name: "Tests End2End", level: 3, exp: 4 },
+        { name: "I18n", level: 3, exp: 5 },
+        { name: "P.W.A.", level: 3, exp: 4 },
       ];
-      const experienceMax = 10;
 
-      function update(e) {
-        const labels = [...document.querySelectorAll('[for^="label-"]')];
-        const values = [...document.querySelectorAll('[id^="label-"]')];
-        const experiences = [
-          ...document.querySelectorAll('[id^="experience-"]'),
-        ];
-        const dataLabels = labels.map((label) => {
-          return label.innerText;
-        });
-        const dataValues = labels.map((label, i) => {
-          return values[i].value * experiences[i].value;
+      const emptySkills = () => skills.map((s) => ({ name: s.name, level: 0, exp: 0 }));
+
+      const state = {
+        current: structuredClone(skills),
+      };
+
+      const chart = document.getElementById("chart");
+      const skillsList = document.getElementById("skills-list");
+      const totalScoreEl = document.getElementById("totalScore");
+      const peakSkillEl = document.getElementById("peakSkill");
+      const avgLevelEl = document.getElementById("avgLevel");
+
+      const makeOptions = (max) =>
+        Array.from({ length: max + 1 }, (_, i) => i).map(
+          (n) => `<option value="${n}">${n === max && max === 10 ? "10+" : n}</option>`
+        ).join("");
+
+      const renderRows = () => {
+        skillsList.innerHTML = state.current
+          .map(
+            (s, i) => `
+              <div class="skill-row">
+                <label for="level-${i}">${s.name}</label>
+                <select id="level-${i}" data-idx="${i}" data-field="level">
+                  ${makeOptions(5)}
+                </select>
+                <select id="exp-${i}" data-idx="${i}" data-field="exp">
+                  ${makeOptions(10)}
+                </select>
+              </div>
+            `
+          )
+          .join("");
+
+        state.current.forEach((s, i) => {
+          skillsList.querySelector(`#level-${i}`).value = String(s.level);
+          skillsList.querySelector(`#exp-${i}`).value = String(s.exp);
         });
 
-        const radarChart = document.querySelector("#radarchart1");
-        const updateEvent = new CustomEvent("radar-chart-update-data", {
-          detail: {
-            id: radarChart.id,
-            labelName: "Usuario",
-            labelField: dataLabels,
-            value: dataValues,
+        skillsList.querySelectorAll("select").forEach((sel) => {
+          sel.addEventListener("change", (e) => {
+            const idx = Number(e.target.dataset.idx);
+            const field = e.target.dataset.field;
+            state.current[idx][field] = Number(e.target.value);
+            updateChart();
+          });
+        });
+      };
+
+      const updateChart = () => {
+        const labels = state.current.map((s) => s.name);
+        const values = state.current.map((s) => s.level * s.exp);
+
+        chart.labels = labels;
+        chart.series = [
+          {
+            name: "Skill profile",
+            values,
+            color: "#00e0b3",
           },
-        });
-        document.dispatchEvent(updateEvent);
-      }
+        ];
 
-      function createRadarChart() {
-        const values = [labels.frontend.length];
-        const radarChart = document.createElement("radar-chart");
-        radarChart.id = "radarchart1";
-        radarChart.setAttribute("side-size", "500");
-        radarChart.setAttribute("scale-max", "50");
-        radarChart.setAttribute("scale-min", "0");
-        radarChart.setAttribute("scale-step", "5");
-        radarChart.innerHTML = `
-          <ul class="radar-chart__labels">
-            ${labels.frontend.map(
-              (label) => `<li class="radar-chart__label">${label}</li>`
-            )}
-          </ul>
-          <ul class="radar-chart__marks">
-            <li name="Usuario" data-bgcolor="rgba(255,0,0,0.2)">
-              ${values.fill(0, 0, labels.frontend.length).join(",")}
-            </li>
-          </ul>
-        `;
-        document.getElementById("radarchart").appendChild(radarChart);
-      }
+        const total = values.reduce((a, b) => a + b, 0);
+        const avg = (
+          state.current.reduce((a, s) => a + s.level, 0) / state.current.length
+        ).toFixed(1);
+        const peakIdx = values.indexOf(Math.max(...values));
+        totalScoreEl.textContent = total;
+        avgLevelEl.textContent = avg;
+        peakSkillEl.textContent = state.current[peakIdx].name.split(" ")[0];
+      };
 
-      function createLegend() {
-        const div = document.createElement("div");
-        div.setAttribute("id", `layer-legend`);
-        div.classList.add("layer");
-        const label1 = document.createElement("span");
-        label1.classList.add("botonera__label");
-        const label2 = document.createElement("span");
-        label2.innerHTML = "Nivel";
-        const label3 = document.createElement("span");
-        label3.innerHTML = "Experiencia";
-        div.appendChild(label1);
-        div.appendChild(label2);
-        div.appendChild(label3);
-        document.querySelector("#botonera").appendChild(div);
-      }
+      document.getElementById("presetBtn").addEventListener("click", () => {
+        state.current = structuredClone(skills);
+        renderRows();
+        updateChart();
+      });
 
-      function createSelects() {
-        createLegend();
-        labels.frontend.forEach((label, index) => {
-          const div = document.createElement("div");
-          div.setAttribute("id", `layer-${label}${index}`);
-          div.classList.add("layer");
-          const labelHTML = document.createElement("label");
-          labelHTML.innerText = label;
-          labelHTML.setAttribute("for", `label-${label}${index}`);
-          labelHTML.classList.add("botonera__label");
-          const select = document.createElement("select");
-          select.id = `label-${label}${index}`;
-          select.setAttribute("name", `label-${label}`);
-          select.innerHTML = `
-            <option value="0" selected>0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          `;
-          const selectExperience = document.createElement("select");
-          selectExperience.id = `experience-${label}${index}`;
-          selectExperience.setAttribute("name", `experience-${label}`);
-          selectExperience.innerHTML = `
-            <option value="0" selected>0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10 o +</option>
-          `;
-          div.appendChild(labelHTML);
-          div.appendChild(select);
-          div.appendChild(selectExperience);
-          document.querySelector("#botonera").appendChild(div);
-        });
-        const button = document.createElement("button");
-        button.setAttribute("id", "updateBtn");
-        button.innerText = "Actualizar";
-        document.querySelector("#botonera").appendChild(button);
-        document.querySelector("#updateBtn").addEventListener("click", update);
-      }
+      document.getElementById("resetBtn").addEventListener("click", () => {
+        state.current = emptySkills();
+        renderRows();
+        updateChart();
+      });
 
-      function init() {
-        createRadarChart();
-        createSelects();
-      }
-      window.addEventListener("load", init);
+      renderRows();
+      updateChart();
     </script>
   </body>
 </html>

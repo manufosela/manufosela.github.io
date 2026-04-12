@@ -1,19 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>capture-image demo</title>
+    <title>canvas-polygon demo</title>
     <meta charset="utf-8" />
     <meta
       name="viewport"
       content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes"
     />
+    <script type="importmap">
+      {
+        "imports": {
+          "lit": "https://esm.sh/lit@3",
+          "lit/": "https://esm.sh/lit@3/"
+        }
+      }
+    </script>
     <style>
+      body {
+        margin: 0;
+        background: #131313;
+        color: #f4f5f2;
+        font-family: system-ui, sans-serif;
+      }
       #demo {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        gap: 1rem;
+        min-height: 100vh;
+        padding: 2rem;
       }
       canvas-polygon {
         margin: 1rem;
@@ -23,19 +39,15 @@
 
   <body>
     <div id="demo">
-      <canvas-polygon size="200" sides="4" bg-color="red"></canvas-polygon>
-      <canvas-polygon size="200" sides="3" bg-color="green"></canvas-polygon>
-      <canvas-polygon size="200" sides="5" bg-color="blue"></canvas-polygon>
-      <canvas-polygon size="200" sides="6" bg-color="yellow"></canvas-polygon>
-      <canvas-polygon size="200" sides="25" bg-color="orange"></canvas-polygon>
+      <canvas-polygon size="200" sides="4" bg-color="#e94560"></canvas-polygon>
+      <canvas-polygon size="200" sides="3" bg-color="#00e0b3"></canvas-polygon>
+      <canvas-polygon size="200" sides="5" bg-color="#4cc9f0"></canvas-polygon>
+      <canvas-polygon size="200" sides="6" bg-color="#f4c430"></canvas-polygon>
+      <canvas-polygon size="200" sides="25" bg-color="#ff8a3d"></canvas-polygon>
     </div>
     <script
       type="module"
-      src="https://www.unpkg.com/lit@2.7.5/index.js"
-    ></script>
-    <script
-      type="module"
-      src="https://www.unpkg.com/@manufosela/canvas-polygon@1.0.0/canvas-polygon.js"
+      src="https://esm.sh/@manufosela/canvas-polygon@1.0.0"
     ></script>
   </body>
 </html>

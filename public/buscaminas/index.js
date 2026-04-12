@@ -52,7 +52,7 @@ const textures = [
 
 function changeCellContent(cellx, celly, content) {
   const changeCellContentEvent = new CustomEvent(
-    'board-cell-change-cell-content',
+    'board-cell__change-cell-content',
     {
       detail: {
         id: idGame,
@@ -67,7 +67,7 @@ function changeCellContent(cellx, celly, content) {
 
 function changeCellsContent(content) {
   const changeCellsContentEvent = new CustomEvent(
-    'board-cell-change-cells-content',
+    'board-cell__change-cells-content',
     {
       detail: {
         id: idGame,
@@ -139,7 +139,11 @@ function setMines(rows, cols) {
 function initBoard() {
   const cols = board.getAttribute('cols');
   const rows = board.getAttribute('rows');
-  changeCellsContent(boardDrawed);
+  for (let x = 0; x < boardSize; x += 1) {
+    for (let y = 0; y < boardSize; y += 1) {
+      changeCellContent(x, y, boardDrawed[x][y]);
+    }
+  }
   setMines(rows, cols);
 }
 
@@ -157,7 +161,7 @@ function restartGame() {
   initBoard();
   flagCounter = 0;
   const enableBoardClick = new CustomEvent(
-    'board-cell-enable-board-click',
+    'board-cell__enable-board-click',
     {
       detail: {
         id: idGame,
@@ -182,7 +186,7 @@ function gameOver(x, y) {
   console.warn('You loose... BOMB!');
   changeCellContent(x, y, statuses.mineexplode);
   const disableBoardClick = new CustomEvent(
-    'board-cell-disable-board-click',
+    'board-cell__disable-board-click',
     {
       detail: {
         id: idGame,
@@ -197,7 +201,7 @@ function youWin() {
   console.warn('You Win!');
   confetti();
   const disableBoardClick = new CustomEvent(
-    'board-cell-disable-board-click',
+    'board-cell__disable-board-click',
     {
       detail: {
         id: idGame,
@@ -213,6 +217,7 @@ function uncoverCells(x, y) {
     if (boardMines[x][y] === 'M') {
       gameOver(x, y);
     } else if (boardMines[x][y] !== 0) {
+      boardDrawed[x][y] = textures[boardMines[x][y]];
       changeCellContent(x, y, textures[boardMines[x][y]]);
     } else {
       boardDrawed[x][y] = statuses.grass;
