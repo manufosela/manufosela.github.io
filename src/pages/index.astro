@@ -46,23 +46,25 @@ const [firstCatalog, ...restCatalogs] = catalogs;
     </div>
   </section>
 
-  <section>
-    <div class="section-header">
-      <h2 class="headline-medium">Other Demos</h2>
-      <p>Explorations, experiments, and one-off concepts — quick ideas that became interactive pieces.</p>
-    </div>
-    <div class="bento">
-      {demos.map((demo) => (
-        <a class="card" href={demo.href}>
-          <span class="tag">Demo</span>
-          <h3>{demo.title}</h3>
-          <p>{demo.description}</p>
-          <div class="card-meta">
-            <span class="label">Open</span>
-            <span class="card-arrow">&rarr;</span>
-          </div>
-        </a>
-      ))}
-    </div>
-  </section>
+  {demos.length > 0 && (
+    <section>
+      <div class="section-header">
+        <h2 class="headline-medium">Example Apps</h2>
+        <p>Complete apps built using components from the catalogs above — real-world usage examples.</p>
+      </div>
+      <div class="bento">
+        {demos.map((demo) => (
+          <a class="card" href={demo.href}>
+            <span class="tag">{demo.category || "Demo"}</span>
+            <h3>{demo.title}</h3>
+            <p>{demo.description}</p>
+            <div class="card-meta">
+              <span class="label">Open</span>
+              <span class="card-arrow">&rarr;</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
 </BaseLayout>
