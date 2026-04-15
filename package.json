@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "SITE_URL=https://manufosela.github.io/ BASE_PATH=/ astro build",
+    "build": "SITE_URL=https://manufosela.dev/ BASE_PATH=/ astro build",
     "preview": "astro preview"
   },
   "dependencies": {
