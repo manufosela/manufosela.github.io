@@ -1,9 +1,12 @@
 ---
+import { t } from "../data/i18n.js";
+
+const { locale = "en" } = Astro.props;
 const year = new Date().getFullYear();
 ---
 <footer>
   <div class="footer-inner">
     <p class="footer-mark">Manufosela</p>
-    <p>&copy; {year} &middot; Lightweight, accessible, standards-first.</p>
+    <p>&copy; {year} &middot; {t(locale, "footer.tagline")}</p>
   </div>
 </footer>

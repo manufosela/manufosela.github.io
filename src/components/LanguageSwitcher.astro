@@ -1,0 +1,60 @@
+---
+const { locale = "en", translationPath = null } = Astro.props;
+const otherLocale = locale === "en" ? "es" : "en";
+const fallbackPath = otherLocale === "en" ? "/" : "/es/";
+const targetHref = translationPath ?? fallbackPath;
+---
+<a
+  class="lang-switch"
+  href={targetHref}
+  data-lang-switch
+  data-target-lang={otherLocale}
+  hreflang={otherLocale}
+  aria-label={otherLocale === "es" ? "Ver en español" : "View in English"}
+>{otherLocale.toUpperCase()}</a>
+
+<style>
+  .lang-switch {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.25rem;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--on-surface-variant);
+    background: transparent;
+    border: 1px solid var(--ghost-border);
+    border-radius: var(--radius-md);
+    padding: 0.4rem 0.65rem;
+    cursor: pointer;
+    transition:
+      background 200ms ease-out,
+      color 200ms ease-out,
+      border-color 200ms ease-out;
+  }
+
+  .lang-switch:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--on-surface);
+    border-color: rgba(58, 74, 68, 0.35);
+  }
+
+  :global(html.light) .lang-switch:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+</style>
+
+<script>
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const switcher = target.closest("[data-lang-switch]");
+    if (!switcher) return;
+    const lang = switcher.getAttribute("data-target-lang");
+    if (lang) {
+      localStorage.setItem("locale", lang);
+    }
+  });
+</script>

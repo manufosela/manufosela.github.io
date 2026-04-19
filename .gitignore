@@ -19,9 +19,10 @@ yarn-error.log*
 .env.local
 .env.*.local
 
-# editor
+# editor / AI tooling
 .vscode/
 .idea/
+.claude/
 *.swp
 
 # os

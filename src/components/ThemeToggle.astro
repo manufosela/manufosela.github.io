@@ -1,4 +1,17 @@
-<button class="theme-toggle" type="button" data-theme-toggle>Light mode</button>
+---
+import { t } from "../data/i18n.js";
+
+const { locale = "en" } = Astro.props;
+const labelLight = t(locale, "theme.light");
+const labelDark = t(locale, "theme.dark");
+---
+<button
+  class="theme-toggle"
+  type="button"
+  data-theme-toggle
+  data-label-light={labelLight}
+  data-label-dark={labelDark}
+>{labelLight}</button>
 
 <script is:inline>
   const applyStoredTheme = () => {
@@ -19,9 +32,12 @@
     const toggle = document.querySelector('[data-theme-toggle]');
     if (!toggle) return;
 
+    const labelLight = toggle.getAttribute('data-label-light') ?? 'Light mode';
+    const labelDark = toggle.getAttribute('data-label-dark') ?? 'Dark mode';
+
     const updateLabel = () => {
       const isLight = root.classList.contains('light');
-      toggle.textContent = isLight ? 'Dark mode' : 'Light mode';
+      toggle.textContent = isLight ? labelDark : labelLight;
     };
 
     updateLabel();

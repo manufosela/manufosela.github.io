@@ -1,4 +1,10 @@
 export const siteConfig = {
-  title: "Manufosela",
-  description: "Design-focused web components, utilities, and interactive demos.",
+  en: {
+    title: "Manufosela",
+    description: "Design-focused web components, utilities, and interactive demos.",
+  },
+  es: {
+    title: "Manufosela",
+    description: "Web components con foco en diseño, utilidades y demos interactivas.",
+  },
 };
