@@ -1,24 +1,37 @@
 <button class="theme-toggle" type="button" data-theme-toggle>Light mode</button>
 
-<script type="module">
-  const root = document.documentElement;
-  const toggle = document.querySelector('[data-theme-toggle]');
-  const stored = localStorage.getItem('theme');
-
-  if (stored === 'light') {
-    root.classList.add('light');
-  }
-
-  const updateLabel = () => {
-    const isLight = root.classList.contains('light');
-    toggle.textContent = isLight ? 'Dark mode' : 'Light mode';
+<script is:inline>
+  const applyStoredTheme = () => {
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.add('light');
+    } else {
+      document.documentElement.classList.remove('light');
+    }
   };
 
-  updateLabel();
+  applyStoredTheme();
+  document.addEventListener('astro:after-swap', applyStoredTheme);
+</script>
 
-  toggle.addEventListener('click', () => {
-    root.classList.toggle('light');
-    localStorage.setItem('theme', root.classList.contains('light') ? 'light' : 'dark');
+<script>
+  const setupThemeToggle = () => {
+    const root = document.documentElement;
+    const toggle = document.querySelector('[data-theme-toggle]');
+    if (!toggle) return;
+
+    const updateLabel = () => {
+      const isLight = root.classList.contains('light');
+      toggle.textContent = isLight ? 'Dark mode' : 'Light mode';
+    };
+
     updateLabel();
-  });
+
+    toggle.addEventListener('click', () => {
+      root.classList.toggle('light');
+      localStorage.setItem('theme', root.classList.contains('light') ? 'light' : 'dark');
+      updateLabel();
+    });
+  };
+
+  document.addEventListener('astro:page-load', setupThemeToggle);
 </script>
