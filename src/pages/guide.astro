@@ -1,0 +1,1484 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<style>
+  /* -- Layout --------------------------------------------------- */
+  .guide-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding-top: 3rem;
+  }
+
+  @media (min-width: 1024px) {
+    .guide-wrapper {
+      grid-template-columns: 220px 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+  }
+
+  /* -- TOC sidebar ----------------------------------------------- */
+  .toc {
+    position: sticky;
+    top: 5rem;
+    padding: 1.5rem;
+    background: var(--surface-container-low);
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-lg);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .toc {
+      display: block;
+    }
+  }
+
+  .toc h2 {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--on-surface-variant);
+    margin: 0 0 1rem;
+  }
+
+  .toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .toc a {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    color: var(--on-surface-dim);
+    padding: 0.3rem 0.5rem;
+    border-radius: var(--radius-sm);
+    transition: background 150ms ease, color 150ms ease;
+  }
+
+  .toc-num {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--primary);
+    flex-shrink: 0;
+    /* font-variant-numeric: tabular-nums; */
+    min-width: 1.2em;
+  }
+
+  .toc a:hover {
+    background: var(--surface-container);
+    color: var(--on-surface);
+  }
+
+  /* -- Article ---------------------------------------------------- */
+  .guide-article {
+    min-width: 0;
+  }
+
+  /* Page header */
+  .guide-header {
+    margin-bottom: 3.5rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--outline-variant);
+  }
+
+  .guide-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--primary);
+    margin: 0 0 1rem;
+  }
+
+  .guide-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 1.2rem + 3vw, 3.25rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: var(--on-surface);
+    margin: 0 0 1rem;
+  }
+
+  .guide-title span {
+    color: var(--primary);
+  }
+
+  .guide-subtitle {
+    font-size: 1.05rem;
+    color: var(--on-surface-variant);
+    max-width: 62ch;
+    line-height: 1.7;
+    margin: 0 0 1.5rem;
+  }
+
+  .guide-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: 0.8rem;
+    color: var(--on-surface-dim);
+  }
+
+  .guide-meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  /* -- Sections --------------------------------------------------- */
+  .guide-section {
+    margin-bottom: 4rem;
+    scroll-margin-top: 5rem;
+  }
+
+  .guide-section h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 1rem + 1vw, 1.6rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--on-surface);
+    margin: 0 0 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .guide-section h2 .section-num {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--primary);
+    background: rgba(0, 224, 179, 0.12);
+    border: 1px solid rgba(0, 224, 179, 0.25);
+    border-radius: var(--radius-sm);
+    padding: 0.1em 0.5em;
+    /* font-variant-numeric: tabular-nums; */
+    letter-spacing: 0.02em;
+  }
+
+  .section-lead {
+    font-size: 0.95rem;
+    color: var(--on-surface-variant);
+    margin: 0 0 1.75rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--ghost-border);
+  }
+
+  .guide-section h3 {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--on-surface);
+    margin: 2rem 0 0.75rem;
+  }
+
+  .guide-section p {
+    font-size: 0.95rem;
+    color: var(--on-surface-variant);
+    line-height: 1.75;
+    margin: 0 0 1.1rem;
+  }
+
+  .guide-section ul,
+  .guide-section ol {
+    padding-left: 1.25rem;
+    margin: 0 0 1.1rem;
+  }
+
+  .guide-section li {
+    font-size: 0.95rem;
+    color: var(--on-surface-variant);
+    line-height: 1.75;
+    margin-bottom: 0.35rem;
+  }
+
+  .guide-section li strong,
+  .guide-section p strong {
+    color: var(--on-surface);
+    font-weight: 600;
+  }
+
+  /* -- Code blocks ------------------------------------------------ */
+  pre {
+    background: var(--surface-container-lowest);
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-md);
+    padding: 1.25rem 1.5rem;
+    overflow-x: auto;
+    margin: 1.25rem 0;
+    position: relative;
+  }
+
+  pre code {
+    font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", ui-monospace, monospace;
+    font-size: 0.82rem;
+    line-height: 1.65;
+    color: var(--on-surface);
+    background: none;
+    padding: 0;
+  }
+
+  code:not(pre code) {
+    font-family: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+    font-size: 0.82em;
+    background: var(--surface-container-high);
+    color: var(--primary-fixed-dim);
+    padding: 0.15em 0.4em;
+    border-radius: var(--radius-sm);
+  }
+
+  .code-label {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--on-surface-dim);
+    margin-bottom: -0.5rem;
+    padding: 0.5rem 1.5rem 0;
+    background: var(--surface-container-lowest);
+    border: 1px solid var(--outline-variant);
+    border-bottom: none;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+  }
+
+  .code-label + pre {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    margin-top: 0;
+  }
+
+  /* -- Callouts ---------------------------------------------------- */
+  aside.tip,
+  aside.warning,
+  aside.opinion {
+    border-radius: var(--radius-md);
+    padding: 1rem 1.25rem;
+    margin: 1.75rem 0;
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+
+  aside.tip {
+    background: rgba(0, 224, 179, 0.08);
+    border-left: 3px solid var(--primary);
+    color: var(--on-surface-variant);
+  }
+
+  aside.warning {
+    background: rgba(255, 152, 0, 0.08);
+    border-left: 3px solid #ff9800;
+    color: var(--on-surface-variant);
+  }
+
+  aside.opinion {
+    background: rgba(167, 139, 250, 0.08);
+    border-left: 3px solid #a78bfa;
+    color: var(--on-surface-variant);
+    font-style: italic;
+  }
+
+  aside p {
+    margin: 0;
+    color: inherit !important;
+    font-size: inherit !important;
+  }
+
+  aside p + p {
+    margin-top: 0.6rem;
+  }
+
+  aside strong {
+    color: var(--on-surface) !important;
+    font-style: normal;
+  }
+
+  /* -- Tables ------------------------------------------------------ */
+  .guide-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.85rem;
+  }
+
+  .guide-table th {
+    text-align: left;
+    padding: 0.6rem 1rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--on-surface-dim);
+    border-bottom: 1px solid var(--outline-variant);
+  }
+
+  .guide-table td {
+    padding: 0.75rem 1rem;
+    color: var(--on-surface-variant);
+    border-bottom: 1px solid var(--ghost-border);
+    vertical-align: top;
+  }
+
+  .guide-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .guide-table td code {
+    white-space: nowrap;
+  }
+
+  /* -- Demo link --------------------------------------------------- */
+  .demo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--primary);
+    background: rgba(0, 224, 179, 0.10);
+    border: 1px solid rgba(0, 224, 179, 0.22);
+    border-radius: var(--radius-md);
+    padding: 0.3em 0.75em;
+    margin: 0.25rem 0;
+    text-decoration: none;
+    transition: background 150ms ease, border-color 150ms ease;
+  }
+
+  .demo-link:hover {
+    background: rgba(0, 224, 179, 0.18);
+    border-color: rgba(0, 224, 179, 0.4);
+    color: var(--primary);
+  }
+
+  /* -- README template callout -------------------------------------- */
+  .readme-template {
+    background: var(--surface-container);
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    font-size: 0.85rem;
+  }
+
+  .readme-template h4 {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--on-surface-dim);
+    margin: 0 0 0.75rem;
+  }
+
+  .readme-template ol {
+    margin: 0;
+    padding-left: 1.25rem;
+    color: var(--on-surface-variant);
+    line-height: 1.8;
+  }
+
+  /* -- About the author --------------------------------------------- */
+  .author-card {
+    margin-top: 5rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--outline-variant);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .author-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 2px solid var(--outline-variant);
+    background: var(--surface-container);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    flex-shrink: 0;
+  }
+
+  .author-bio h3 {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--on-surface);
+    margin: 0 0 0.35rem;
+  }
+
+  .author-bio p {
+    font-size: 0.88rem;
+    color: var(--on-surface-variant);
+    line-height: 1.7;
+    margin: 0 0 0.75rem;
+  }
+
+  .author-links {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .author-links a {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--primary);
+    border-bottom: 1px solid rgba(0, 224, 179, 0.35);
+    padding-bottom: 0.1em;
+    transition: border-color 150ms ease;
+  }
+
+  .author-links a:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+  }
+
+  /* -- Mobile TOC pill -------------------------------------------- */
+  .mobile-toc-note {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--on-surface-dim);
+    margin-bottom: 2rem;
+    padding: 0.6rem 1rem;
+    background: var(--surface-container-low);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--outline-variant);
+  }
+
+  @media (min-width: 1024px) {
+    .mobile-toc-note {
+      display: none;
+    }
+  }
+</style>
+
+<BaseLayout title="Building Web Components — A Practical Guide | manufosela.dev">
+
+  <div class="guide-wrapper">
+
+    <!-- -- Sidebar TOC ------------------------------------------- -->
+    <nav class="toc" aria-label="Table of contents">
+      <h2>Contents</h2>
+      <ol>
+        <li><a href="#when-to-build"><span class="toc-num">01</span>When to Build</a></li>
+        <li><a href="#single-responsibility"><span class="toc-num">02</span>Single Responsibility</a></li>
+        <li><a href="#naming"><span class="toc-num">03</span>Naming Your Components</a></li>
+        <li><a href="#data-flow"><span class="toc-num">04</span>Data Flow</a></li>
+        <li><a href="#communication"><span class="toc-num">05</span>Component Communication</a></li>
+        <li><a href="#light-dom"><span class="toc-num">06</span>Use the Light DOM</a></li>
+        <li><a href="#error-handling"><span class="toc-num">07</span>Error Handling</a></li>
+        <li><a href="#accessibility"><span class="toc-num">08</span>Accessibility First</a></li>
+        <li><a href="#performance"><span class="toc-num">09</span>Performance</a></li>
+        <li><a href="#documentation"><span class="toc-num">10</span>Documentation</a></li>
+        <li><a href="#maintainability"><span class="toc-num">11</span>Maintainability</a></li>
+      </ol>
+    </nav>
+
+    <!-- -- Article ----------------------------------------------- -->
+    <article class="guide-article">
+
+      <header class="guide-header">
+        <p class="guide-eyebrow">Web Components Guide</p>
+        <h1 class="guide-title">Building Web Components —<br /><span>A Practical Guide</span></h1>
+        <p class="guide-subtitle">
+          Principles, patterns, and battle-tested best practices from building
+          50+ production components. Framework-agnostic, standard-first, and
+          unapologetically opinionated.
+        </p>
+        <div class="guide-meta">
+          <span>By manufosela</span>
+          <span>~25 min read</span>
+          <span>Updated April 2026</span>
+        </div>
+      </header>
+
+      <p class="mobile-toc-note">
+        Tip: On desktop, a sticky table of contents appears on the left.
+      </p>
+
+      <!-- ========================================================== -->
+      <!-- 01 — WHEN TO BUILD -->
+      <!-- ========================================================== -->
+      <section id="when-to-build" class="guide-section">
+        <h2><span class="section-num">01</span> When (and When Not) to Build a Web Component</h2>
+        <p class="section-lead">
+          The biggest mistake developers make isn't building bad components — it's building unnecessary ones.
+          Before you reach for <code>customElements.define</code>, ask yourself four questions.
+        </p>
+
+        <h3>The Four Criteria</h3>
+        <p>A piece of UI deserves to be a custom element if it meets <strong>at least one</strong> of these:</p>
+
+        <ol>
+          <li>
+            <strong>It's genuinely reusable.</strong> It will appear in more than one place, in more than one project,
+            or it serves a sufficiently generic purpose that other teams could use it unchanged.
+          </li>
+          <li>
+            <strong>It provides a presentation that doesn't exist in HTML.</strong> A <code>&lt;my-rating-stars&gt;</code>
+            component makes sense. A <code>&lt;my-div-with-padding&gt;</code> does not.
+          </li>
+          <li>
+            <strong>It has meaningful encapsulated behaviour.</strong> It does something — handles interaction,
+            manages state, orchestrates child elements. Pure layout is not behaviour.
+          </li>
+          <li>
+            <strong>It needs to abstract its design from its context.</strong> It can be dropped into any page or
+            any framework without knowing anything about the host application.
+          </li>
+        </ol>
+
+        <aside class="opinion">
+          <p>
+            <strong>My take:</strong> If none of those four apply, what you have is a <em>template</em>, not a component.
+            A template is fine! Reach for a server-side partial, a plain HTML snippet, or a CSS utility class instead.
+            The web doesn't need more custom elements — it needs better ones.
+          </p>
+        </aside>
+
+        <h3>The Framework Trap</h3>
+        <p>
+          Most frontend education teaches us <em>how</em> to use a framework, not <em>when</em> to use one.
+          The mental model becomes: every UI is a component, every component needs a framework.
+          Web components are the standard-library answer to this: they run natively in every browser,
+          ship without a runtime, and interoperate with React, Vue, Angular, Svelte — or no framework at all.
+        </p>
+        <p>
+          Many sites don't need a framework. A product page, a documentation site, a portfolio —
+          these can be built with HTML, CSS, and a handful of custom elements. Start with the platform.
+          Add abstractions only when the platform falls short.
+        </p>
+
+        <aside class="tip">
+          <p>
+            <strong>Litmus test:</strong> If you can implement it in 10 lines of plain JS,
+            it probably doesn't need to be a component. If it has a lifecycle, manages its own
+            state, and surfaces an API to the outside world — that's a component.
+          </p>
+        </aside>
+      </section>
+
+      <!-- ========================================================== -->
+      <!-- 02 — SINGLE RESPONSIBILITY -->
+      <!-- ========================================================== -->
+      <section id="single-responsibility" class="guide-section">
+        <h2><span class="section-num">02</span> One Component, One Responsibility</h2>
+        <p class="section-lead">
+          The Single Responsibility Principle applies to web components with particular force,
+          because components are exposed as public API. A component that does too much is hard to
+          use, hard to test, and impossible to reason about.
+        </p>
+
+        <h3>Recognising Bloat</h3>
+        <p>
+          The clearest sign a component has grown too large is file length. If your component file
+          exceeds ~300 lines, it's almost certainly doing more than one thing. Other signals:
+        </p>
+        <ul>
+          <li>It has more than five or six observed attributes.</li>
+          <li>Its <code>connectedCallback</code> runs 20+ lines of setup logic.</li>
+          <li>You find yourself writing conditional rendering branches for fundamentally different states.</li>
+          <li>Its README has more than three usage examples, all significantly different.</li>
+        </ul>
+
+        <h3>Splitting Strategies</h3>
+        <p>
+          When a component grows too complex, split it at natural seams. Common patterns:
+        </p>
+
+        <span class="code-label">Split: container / presentational</span>
+        <pre><code>&lt;!-- Bad: one component handles data fetching AND rendering --&gt;
+&lt;user-profile-card user-id="42"&gt;&lt;/user-profile-card&gt;
+
+&lt;!-- Better: separate concerns --&gt;
+&lt;user-data-provider user-id="42"&gt;
+  &lt;user-profile-card&gt;&lt;/user-profile-card&gt;
+&lt;/user-data-provider&gt;</code></pre>
+
+        <h3>Mixins for Shared Behaviour</h3>
+        <p>
+          If multiple components share a behaviour (drag-and-drop, lazy loading, a specific
+          ARIA pattern), extract it into a mixin rather than a base class or a utility import.
+          Mixins keep the component's class hierarchy flat and the shared logic decoupled.
+        </p>
+
+        <span class="code-label">mixin-focusable.js</span>
+        <pre><code>export const FocusableMixin = (Base) => class extends Base &#123;
+  connectedCallback() &#123;
+    super.connectedCallback?.();
+    if (!this.hasAttribute('tabindex')) &#123;
+      this.setAttribute('tabindex', '0');
+    &#125;
+    this.addEventListener('keydown', this.#handleKeydown);
+  &#125;
+
+  disconnectedCallback() &#123;
+    super.disconnectedCallback?.();
+    this.removeEventListener('keydown', this.#handleKeydown);
+  &#125;
+
+  #handleKeydown = (e) => &#123;
+    if (e.key === 'Enter' || e.key === ' ') &#123;
+      e.preventDefault();
+      this.click();
+    &#125;
+  &#125;;
+&#125;;</code></pre>
+      </section>
+
+      <!-- ========================================================== -->
+      <!-- 03 — NAMING -->
+      <!-- ========================================================== -->
+      <section id="naming" class="guide-section">
+        <h2><span class="section-num">03</span> Naming Your Components</h2>
+        <p class="section-lead">
+          Custom element tag names are global and cannot be redefined. Choose them carefully,
+          because a conflict in the registry will silently break one of the two colliding elements.
+        </p>
+
+        <h3>Use a Namespace Prefix</h3>
+        <p>
+          Tag names must contain a hyphen (that's the spec's way of distinguishing custom elements
+          from future HTML elements). Use your organisation name or design system name as the prefix:
+        </p>
+
+        <pre><code>&lt;!-- Bad: likely to collide --&gt;
+&lt;calendar&gt;&lt;/calendar&gt;
+&lt;modal&gt;&lt;/modal&gt;
+
+&lt;!-- Good: namespaced --&gt;
+&lt;manufosela-calendar&gt;&lt;/manufosela-calendar&gt;
+&lt;my-ds-modal&gt;&lt;/my-ds-modal&gt;</code></pre>
+
+        <p>
+          The prefix doubles as a discovery mechanism — developers grep for <code>manufosela-</code>
+          to find all components from a given library.
+        </p>
+
+        <h3>Be Descriptive, Not Clever</h3>
+        <p>
+          The name should communicate what the component <em>is</em>, not how it's implemented.
+          <code>&lt;mf-accordion&gt;</code> is good. <code>&lt;mf-collapsible-details-wrapper&gt;</code> is too
+          implementation-specific. <code>&lt;mf-thing&gt;</code> is useless.
+        </p>
+
+        <table class="guide-table">
+          <thead>
+            <tr>
+              <th>Pattern</th>
+              <th>Example</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>No namespace</td>
+              <td><code>&lt;calendar&gt;</code></td>
+              <td>Collision risk — avoid</td>
+            </tr>
+            <tr>
+              <td>Org prefix</td>
+              <td><code>&lt;mf-calendar&gt;</code></td>
+              <td>Good</td>
+            </tr>
+            <tr>
+              <td>Design system prefix</td>
+              <td><code>&lt;manufosela-calendar&gt;</code></td>
+              <td>Best — unambiguous</td>
+            </tr>
+            <tr>
+              <td>Version in name</td>
+              <td><code>&lt;mf-calendar-v2&gt;</code></td>
+              <td>Only if truly needed alongside v1</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <aside class="tip">
+          <p>
+            <strong>Scoped custom elements</strong> are a proposal in active development that would let
+            you register elements scoped to a shadow root, eliminating global collisions entirely.
+            It's not standardised yet — keep an eye on it.
+          </p>
+        </aside>
+      </section>
+
+      <!-- ========================================================== -->
+      <!-- 04 — DATA FLOW -->
+      <!-- ========================================================== -->
+      <section id="data-flow" class="guide-section">
+        <h2><span class="section-num">04</span> Data Flow: Attributes In, Events Out</h2>
+        <p class="section-lead">
+          This is the golden rule of web component API design. Data flows downward through attributes
+          and properties. Events flow upward. Break this rule and you'll fight your component forever.
+        </p>
+
+        <h3>Attributes vs Properties — Know the Difference</h3>
+        <p>
+          An <strong>attribute</strong> is part of the HTML markup — it lives in the DOM tree, is
+          serialised to a string, and can be set before the element is registered. A <strong>property</strong>
+          is on the JavaScript object — it's set programmatically and can hold any value.
+        </p>
+
+        <pre><code>// Attribute — set in HTML or via setAttribute
+&lt;mf-badge count="5" variant="info"&gt;&lt;/mf-badge&gt;
+element.setAttribute('count', '5');
+
+// Property — set via JS, ideal for complex data
+element.items = [&#123; id: 1, label: 'Apple' &#125;, &#123; id: 2, label: 'Banana' &#125;];
+element.config = &#123; debounce: 300, threshold: 0.5 &#125;;</code></pre>
+
+        <p>Use the following heuristics:</p>
+        <ul>
+          <li><strong>Attributes:</strong> booleans, strings, numbers, enums, IDs. Anything you'd write in HTML.</li>
+          <li><strong>Properties:</strong> arrays, objects, functions, binary data. Anything that can't round-trip through a string without loss.</li>
+        </ul>
+
+        <aside class="warning">
+          <p>
+            <strong>Never override global HTML attributes</strong> like <code>tabindex</code>, <code>role</code>,
+            <code>aria-*</code>, <code>id</code>, or <code>class</code> with your own semantics.
+            Never auto-apply a class to the host element from within the component — that's the consumer's job.
+          </p>
+        </aside>
+
+        <h3>Reflecting Attributes to Properties</h3>
+        <p>
+          Mirror your observed attributes as JS properties with getters/setters so consumers can use either API:
+        </p>
+
+        <span class="code-label">mf-badge.js</span>
+        <pre><code>class MfBadge extends HTMLElement &#123;
+  static observedAttributes = ['count', 'variant'];
+
+  get count() &#123;
+    return Number(this.getAttribute('count') ?? 0);
+  &#125;
+
+  set count(val) &#123;
+    this.setAttribute('count', String(val));
+  &#125;
+
+  get variant() &#123;
+    return this.getAttribute('variant') ?? 'default';
+  &#125;
+
+  set variant(val) &#123;
+    this.setAttribute('variant', val);
+  &#125;
+
+  attributeChangedCallback(name, oldVal, newVal) &#123;
+    if (oldVal === newVal) return;
+    this.#render();
+  &#125;
+
+  #render() &#123;
+    // ...
+  &#125;
+&#125;
+
+customElements.define('mf-badge', MfBadge);</code></pre>
+
+        <h3>Custom Events for Outbound Communication</h3>
+        <p>
+          When a component needs to tell the outside world something happened, dispatch a
+          <code>CustomEvent</code>. Use a consistent naming convention: lowercase, hyphen-separated,
+          prefixed with the component name if there's any risk of collision.
+        </p>
+
+        <span class="code-label">dispatching events</span>
+        <pre><code>// In your component — something happened
+this.dispatchEvent(new CustomEvent('mf-select', &#123;
+  bubbles: true,    // propagate up the DOM tree
+  composed: true,   // cross shadow DOM boundaries
+  detail: &#123;
+    value: this.#selectedValue,
+    label: this.#selectedLabel,
+  &#125;,
+&#125;));
+
+// Consumer side
+document.querySelector('mf-combobox')
+  .addEventListener('mf-select', (e) => &#123;
+    console.log('Selected:', e.detail.value);
+  &#125;);</code></pre>
+
+        <aside class="warning">
+          <p>
+            <strong>When to set <code>composed: true</code></strong> — only if the event needs to cross
+            shadow DOM boundaries (i.e., a host page needs to hear it). For component-internal events
+            that only other components in the same tree will handle, leave <code>composed: false</code>.
+            Over-using <code>composed: true</code> leaks implementation details.
+          </p>
+        </aside>
+
+        <h3>Don't Fire Events in Response to Property Sets</h3>
+        <p>
+          If the parent sets <code>element.value = 'foo'</code>, the parent <em>already knows</em>
+          what the new value is. Firing a <code>change</code> event in response creates a feedback loop
+          and surprises consumers. Reserve events for user interactions and internal async completions —
+          things the parent couldn't have initiated.
+        </p>
+      </section>
+
+      <!-- ========================================================== -->
+      <!-- 05 — COMMUNICATION -->
+      <!-- ========================================================== -->
+      <section id="communication" class="guide-section">
+        <h2><span class="section-num">05</span> Component Communication</h2>
+        <p class="section-lead">
+          Components should be autonomous. They shouldn't know about their siblings.
+          They shouldn't walk the DOM tree looking for parents. Communication happens through events.
+        </p>
+
+        <h3>Events Over Hierarchy</h3>
+        <p>
+          When component A needs to tell component B something, the temptation is to write
+          <code>parent.querySelector('mf-b').doSomething()</code>. Resist it. The moment you introduce
+          a direct reference, you've coupled two components that should be independent.
+        </p>
+        <p>
+          Instead, dispatch an event upward and let the application (or a coordinating container)
+          relay the data downward as an attribute:
+        </p>
+
+        <pre><code>// mf-search dispatches upward
+searchEl.addEventListener('mf-search', (e) => &#123;
+  // Application layer — the only one that knows about both components
+  resultsEl.setAttribute('query', e.detail.query);
+  resultsEl.setAttribute('loading', '');
+  fetchResults(e.detail.query).then((data) => &#123;
+    resultsEl.removeAttribute('loading');
+    resultsEl.items = data;
+  &#125;);
+&#125;);</code></pre>
+
+        <h3>Phenotypic Thinking</h3>
+        <p>
+          Atomic Design organises components by size: atoms, molecules, organisms. It's a useful
+          mental model, but it encourages thinking about components as a <em>family tree</em>
+          (parents containing children who contain grandchildren). This leads to tight coupling.
+        </p>
+        <p>
+          A more useful frame is <strong>phenotypic</strong>: classify components by their visible
+          traits and how they interact with their environment. A <code>&lt;mf-tooltip&gt;</code> is
+          defined by how it <em>appears</em> (near a trigger, floating, transient) and how it
+          <em>responds to its environment</em> (focus, hover, scroll). It doesn't care whether
+          its trigger is a button atom or a complex form molecule.
+        </p>
+        <p>
+          Components should be <strong>symbiotic</strong>, not familial. They coexist and cooperate
+          through shared conventions (events, attributes, slots), not through direct knowledge of each other.
+        </p>
+
+        <aside class="opinion">
+          <p>
+            <strong>Opinion:</strong> The Atomic Design hierarchy is a great communication tool for
+            design teams. It becomes a trap when developers use it to justify tight coupling between
+            components. "This molecule <em>contains</em> those atoms" should mean composition via slots,
+            not class inheritance or direct DOM references.
+          </p>
+        </aside>
+      </section>
+
+      <!-- ========================================================== -->
+      <!-- 06 — LIGHT DOM -->
+      <!-- ========================================================== -->
+      <section id="light-dom" class="guide-section">
+        <h2><span class="section-num">06</span> Use the Light DOM</h2>
+        <p class="section-lead">
+          Shadow DOM is powerful, but it's opaque — to search engines, to screen readers (partially),
+          and to the application layer. Use it for implementation; use slots and light DOM for content.
+        </p>
+
+        <h3>Shadow DOM Is Invisible to Crawlers</h3>
+        <p>
+          Content inside a shadow root is not indexed by search engines (as of 2026, Google can
+          partially index it but the situation is inconsistent). Content that needs to be discovered —
+          headings, body text, product names, navigation labels — belongs in the light DOM.
+        </p>
+        <p>
+          Design your components to accept semantic HTML as their content via <strong>slots</strong>,
+          and let the component apply the visual treatment:
+        </p>
+
+        <span class="code-label">mf-card.html (consumer)</span>
+        <pre><code>&lt;!-- Light DOM content — indexable, accessible, semantic --&gt;
+&lt;mf-card&gt;
+  &lt;h2 slot="title"&gt;Product Name&lt;/h2&gt;
+  &lt;p slot="description"&gt;A short description of this product.&lt;/p&gt;
+  &lt;img slot="image" src="/product.jpg" alt="Product photo" /&gt;
+  &lt;a slot="action" href="/buy"&gt;Buy now&lt;/a&gt;
+&lt;/mf-card&gt;</code></pre>
+
+        <span class="code-label">mf-card.js (component)</span>
+        <pre><code>class MfCard extends HTMLElement &#123;
+  connectedCallback() &#123;
+    const shadow = this.attachShadow(&#123; mode: 'open' &#125;);
+    shadow.innerHTML = &#96;
+      &lt;style&gt;
+        :host &#123; display: block; border-radius: 0.5rem; overflow: hidden; &#125;
+        .card &#123; display: grid; gap: 1rem; padding: 1.5rem; &#125;
+        /* style slots — the light DOM content inherits parent styles too */
+        ::slotted([slot="title"]) &#123; font-size: 1.25rem; margin: 0; &#125;
+        ::slotted([slot="action"]) &#123; color: var(--primary); &#125;
+      &lt;/style&gt;
+      &lt;div class="card"&gt;
+        &lt;slot name="image"&gt;&lt;/slot&gt;
+        &lt;slot name="title"&gt;&lt;/slot&gt;
+        &lt;slot name="description"&gt;&lt;/slot&gt;
+        &lt;slot name="action"&gt;&lt;/slot&gt;
+      &lt;/div&gt;
+    &#96;;
+  &#125;
+&#125;</code></pre>
+
+        <h3>Never Pass JSON as Attributes</h3>
+        <p>
+          This pattern appears everywhere and it's wrong on multiple levels:
+        </p>
+
+        <pre><code>&lt;!-- DO NOT DO THIS --&gt;
+&lt;mf-list items='[&#123;"id":1,"label":"Apple"&#125;,&#123;"id":2,"label":"Banana"&#125;]'&gt;
+&lt;/mf-list&gt;</code></pre>
+
+        <p>
+          The issues: it's not indexable, it breaks when the JSON contains quotes, it's inaccessible
+          to assistive technologies, and it leaks data structure into markup.
+        </p>
+        <p>
+          The right approach is to put the data in the light DOM as semantic HTML, and let the
+          component read and enhance it at render time:
+        </p>
+
+        <span class="code-label">the right way</span>
+        <pre><code>&lt;mf-list&gt;
+  &lt;li data-id="1"&gt;Apple&lt;/li&gt;
+  &lt;li data-id="2"&gt;Banana&lt;/li&gt;
+&lt;/mf-list&gt;
+
+&lt;!-- component reads it at connectedCallback --&gt;</code></pre>
+
+        <span class="code-label">mf-list.js</span>
+        <pre><code>connectedCallback() &#123;
+  const items = [...this.querySelectorAll('li')].map((li) => (&#123;
+    id: li.dataset.id,
+    label: li.textContent.trim(),
+  &#125;));
+  this.#render(items);
+&#125;</code></pre>
+
+        <p>
+          The content was already in the light DOM. It's indexed by search engines. Screen readers
+          can access it even before JavaScript loads. The component enhances it — it doesn't replace it.
+        </p>
+
+        <aside class="tip">
+          <p>
+            <strong>Exception:</strong> If you must pass complex data programmatically (e.g. from a
+            JS-only context with no HTML author), use a <em>property</em> (<code>element.items = [...]</code>),
+            never an attribute. Properties can hold any value without serialisation.
+          </p>
+        </aside>
+      </section>
+
+      <!-- ========================================================== -->
+      <!-- 07 — ERROR HANDLING -->
+      <!-- ========================================================== -->
+      <section id="error-handling" class="guide-section">
+        <h2><span class="section-num">07</span> Error Handling: Fail Loud</h2>
+        <p class="section-lead">
+          Silent failures are the worst kind. If a required attribute is missing, if an API call
+          returns garbage, if configuration is invalid — say so clearly. Your future self will thank you.
+        </p>
+
+        <h3>Throw on Critical Requirements</h3>
+        <p>
+          If a component <em>cannot function</em> without a particular attribute or property, throw
+          an error in <code>connectedCallback</code>. Don't render a broken empty state. Don't log
+          a warning that gets buried in the console. Throw.
+        </p>
+
+        <pre><code>connectedCallback() &#123;
+  const src = this.getAttribute('src');
+
+  if (!src) &#123;
+    throw new Error(
+      &#96;&lt;mf-video-player&gt; requires a "src" attribute. &#96; +
+      &#96;Example: &lt;mf-video-player src="/video.mp4"&gt;&lt;/mf-video-player&gt;&#96;
+    );
+  &#125;
+
+  this.#init(src);
+&#125;</code></pre>
+
+        <h3>Validate, Don't Assume</h3>
+        <p>
+          When an attribute value comes from outside (i.e., from a consumer), validate it against
+          the expected set of values before using it:
+        </p>
+
+        <pre><code>static #VALID_VARIANTS = new Set(['default', 'info', 'success', 'warning', 'error']);
+
+attributeChangedCallback(name, _, newVal) &#123;
+  if (name === 'variant') &#123;
+    if (!MfBadge.#VALID_VARIANTS.has(newVal)) &#123;
+      console.warn(
+        &#96;&lt;mf-badge&gt;: Unknown variant "$&#123;newVal&#125;". &#96; +
+        &#96;Valid values: $&#123;[...MfBadge.#VALID_VARIANTS].join(', ')&#125;&#96;
+      );
+      return; // don't render an invalid state
+    &#125;
+  &#125;
+  this.#render();
+&#125;</code></pre>
+
+        <aside class="warning">
+          <p>
+            <strong>The <code>||</code> fallback trap:</strong> Code like
+            <code>const src = this.getAttribute('src') || '/default.mp4'</code> silently hides
+            misconfigured components. A consumer typos the attribute name, the component renders
+            a default, nobody notices until production. For critical config, use explicit validation
+            and throw or warn loudly.
+          </p>
+        </aside>
+
+        <h3>Graceful Degradation vs. Hard Failures</h3>
+        <p>
+          Distinguish between truly critical requirements (missing = broken) and optional enhancements
+          (missing = reduced functionality):
+        </p>
+        <ul>
+          <li><strong>Critical:</strong> <code>src</code> on a media player, <code>href</code> on a link component → throw</li>
+          <li><strong>Optional:</strong> <code>variant</code> on a badge, <code>icon</code> on a button → warn + use default</li>
+          <li><strong>Enhancement:</strong> <code>prefers-reduced-motion</code>, dark mode → detect + adapt silently</li>
+        </ul>
+      </section>
+
+      <!-- ========================================================== -->
+      <!-- 08 — ACCESSIBILITY -->
+      <!-- ========================================================== -->
+      <section id="accessibility" class="guide-section">
+        <h2><span class="section-num">08</span> Accessibility First</h2>
+        <p class="section-lead">
+          Accessibility is not a checklist item. It's a quality metric. A component that can't be
+          used with a keyboard or a screen reader is a broken component.
+        </p>
+
+        <h3>Use Native Elements Where Possible</h3>
+        <p>
+          The single biggest accessibility win is <em>not</em> re-implementing what the browser
+          already does. If you need a dialog, wrap <code>&lt;dialog&gt;</code>. If you need a disclosure
+          widget, build on <code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code>. The browser gives you
+          keyboard handling, focus management, and ARIA roles for free.
+        </p>
+
+        <a class="demo-link" href="https://manufosela.dev" target="_blank" rel="noopener">
+          → Live demo: app-modal (wraps &lt;dialog&gt;)
+        </a>
+        <a class="demo-link" href="https://manufosela.dev" target="_blank" rel="noopener">
+          → Live demo: behaviour-accordion (builds on &lt;details&gt;)
+        </a>
+
+        <span class="code-label">app-modal — wrapping &lt;dialog&gt;</span>
+        <pre><code>class AppModal extends HTMLElement &#123;
+  #dialog;
+
+  connectedCallback() &#123;
+    const shadow = this.attachShadow(&#123; mode: 'open' &#125;);
+    shadow.innerHTML = &#96;
+      &lt;style&gt;
+        :host &#123; display: contents; &#125;
+        dialog &#123; border: none; border-radius: 0.75rem; padding: 0; &#125;
+        dialog::backdrop &#123; background: rgba(0,0,0,0.6); &#125;
+      &lt;/style&gt;
+      &lt;dialog part="dialog"&gt;
+        &lt;slot&gt;&lt;/slot&gt;
+      &lt;/dialog&gt;
+    &#96;;
+    this.#dialog = shadow.querySelector('dialog');
+  &#125;
+
+  show() &#123; this.#dialog?.showModal(); &#125;
+  close() &#123; this.#dialog?.close(); &#125;
+&#125;</code></pre>
+
+        <h3>ARIA Where Native Falls Short</h3>
+        <p>
+          When there's no native element for the pattern you're building, add ARIA explicitly.
+          Apply it to the host element via <code>:host</code> or set it in <code>connectedCallback</code>:
+        </p>
+
+        <pre><code>connectedCallback() &#123;
+  // Set ARIA role on the host element
+  if (!this.hasAttribute('role')) &#123;
+    this.setAttribute('role', 'tablist');
+  &#125;
+
+  // Manage focus
+  this.setAttribute('tabindex', '0');
+  this.addEventListener('keydown', this.#handleKeyNav);
+&#125;</code></pre>
+
+        <h3>CSS Custom Properties for Theming</h3>
+        <p>
+          Use <code>var()</code> with sensible fallbacks so your component participates in the host
+          page's design system without requiring configuration:
+        </p>
+
+        <pre><code>:host &#123;
+  display: block;
+  /* The host page can override these; fallbacks ensure the component works standalone */
+  --_bg: var(--mf-surface, #1c1b1b);
+  --_text: var(--mf-on-surface, #f4f5f2);
+  --_accent: var(--mf-primary, #00e0b3);
+  --_radius: var(--mf-radius, 0.5rem);
+
+  background: var(--_bg);
+  color: var(--_text);
+  border-radius: var(--_radius);
+&#125;</code></pre>
+
+        <h3>Responsive &amp; Motion-Sensitive</h3>
+        <p>
+          Components should work at any viewport size. If you have animations, respect
+          <code>prefers-reduced-motion</code>:
+        </p>
+
+        <pre><code>@media (prefers-reduced-motion: reduce) &#123;
+  :host, :host * &#123;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  &#125;
+&#125;
+
+@media (prefers-color-scheme: dark) &#123;
+  :host &#123;
+    --_bg: var(--mf-surface, #131313);
+  &#125;
+&#125;</code></pre>
+
+        <h3>Images: SVG Over Base64</h3>
+        <p>
+          Inline SVG scales crisply at any resolution, has no extra HTTP request, supports CSS
+          animation, and keeps file sizes small. Base64-encoded images are none of those things.
+          Use SVG for icons and simple graphics. Use <code>&lt;img&gt;</code> with descriptive <code>alt</code>
+          for photographs.
+        </p>
+      </section>
+
+      <!-- ========================================================== -->
+      <!-- 09 — PERFORMANCE -->
+      <!-- ========================================================== -->
+      <section id="performance" class="guide-section">
+        <h2><span class="section-num">09</span> Performance</h2>
+        <p class="section-lead">
+          Here's something the framework ecosystem doesn't emphasise enough: you don't need a library
+          to build web components. The browser ships everything you need.
+        </p>
+
+        <h3>No Framework Required</h3>
+        <p>
+          Web components are part of the HTML specification. <code>HTMLElement</code>, <code>customElements</code>,
+          <code>attachShadow</code>, <code>MutationObserver</code>, <code>IntersectionObserver</code>
+          — all standard browser APIs, zero dependencies, zero runtime cost.
+        </p>
+
+        <pre><code>// This ships as ~2KB minified + gzipped
+// No React, no Vue, no Angular, no Lit (though Lit is great too)
+class MfTooltip extends HTMLElement &#123;
+  static observedAttributes = ['text', 'placement'];
+
+  connectedCallback() &#123;
+    this.attachShadow(&#123; mode: 'open' &#125;).innerHTML = &#96;
+      &lt;style&gt;/* ... */&lt;/style&gt;
+      &lt;slot&gt;&lt;/slot&gt;
+      &lt;span class="tooltip" part="tooltip"&gt;&lt;/span&gt;
+    &#96;;
+    this.#setup();
+  &#125;
+  // ...
+&#125;</code></pre>
+
+        <h3>First Paint Matters</h3>
+        <p>
+          Define your components in a way that avoids layout shift. Set <code>display</code> on
+          <code>:host</code> to a non-inline value so the element takes up space before its
+          JavaScript runs. Use <code>:not(:defined)</code> to hide unconfigured components
+          gracefully:
+        </p>
+
+        <pre><code>/* In your component styles */
+:host &#123; display: block; &#125;
+
+/* In the host page CSS — hide undefined components to prevent FOUC */
+mf-card:not(:defined),
+mf-modal:not(:defined) &#123;
+  visibility: hidden;
+&#125;</code></pre>
+
+        <h3>Lazy Load Where Appropriate</h3>
+        <p>
+          Components that are below the fold or conditionally shown don't need to be in the critical
+          path. Use dynamic <code>import()</code> and <code>IntersectionObserver</code> together:
+        </p>
+
+        <pre><code>// Only load the component definition when it enters the viewport
+const observer = new IntersectionObserver((entries) => &#123;
+  for (const entry of entries) &#123;
+    if (entry.isIntersecting) &#123;
+      import('./mf-heavy-chart.js');
+      observer.unobserve(entry.target);
+    &#125;
+  &#125;
+&#125;);
+
+document.querySelectorAll('mf-heavy-chart')
+  .forEach((el) => observer.observe(el));</code></pre>
+
+        <h3>Minimise External Dependencies</h3>
+        <p>
+          Every dependency you add is a dependency your consumers must download. Ask for each one:
+          does this genuinely need a library, or is there a browser API that does the same job?
+          Today, that answer is "browser API" more often than ever.
+        </p>
+
+        <table class="guide-table">
+          <thead>
+            <tr><th>Task</th><th>Library</th><th>Native alternative</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Animations</td><td>GSAP</td><td>Web Animations API / CSS transitions</td></tr>
+            <tr><td>Intersection detection</td><td>jQuery waypoints</td><td><code>IntersectionObserver</code></td></tr>
+            <tr><td>Resize detection</td><td>resize-sensor</td><td><code>ResizeObserver</code></td></tr>
+            <tr><td>DOM mutation</td><td>—</td><td><code>MutationObserver</code></td></tr>
+            <tr><td>Deep clone</td><td>lodash.cloneDeep</td><td><code>structuredClone()</code></td></tr>
+            <tr><td>Unique IDs</td><td>uuid</td><td><code>crypto.randomUUID()</code></td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ========================================================== -->
+      <!-- 10 — DOCUMENTATION -->
+      <!-- ========================================================== -->
+      <section id="documentation" class="guide-section">
+        <h2><span class="section-num">10</span> Documentation</h2>
+        <p class="section-lead">
+          An undocumented component is a broken component. If someone can't figure out how to use it
+          in five minutes, they won't use it at all — they'll rewrite it.
+        </p>
+
+        <h3>The README Template</h3>
+        <p>Every component package should have a README that follows this structure:</p>
+
+        <div class="readme-template">
+          <h4>Recommended README sections</h4>
+          <ol>
+            <li><strong>Title</strong> — component name, one-line description, npm badge, demo link</li>
+            <li><strong>Install</strong> — npm command, CDN snippet, import statement</li>
+            <li><strong>Usage</strong> — minimal working example in HTML and JS</li>
+            <li><strong>Attributes</strong> — table: name, type, default, description</li>
+            <li><strong>Properties</strong> — table: name, type, description</li>
+            <li><strong>Events</strong> — table: name, detail shape, when fired</li>
+            <li><strong>CSS Custom Properties</strong> — table: name, default, purpose</li>
+            <li><strong>Slots</strong> — table: name, description</li>
+            <li><strong>Notes</strong> — browser support, known issues, migration notes</li>
+          </ol>
+        </div>
+
+        <h3>custom-elements.json (the manifest)</h3>
+        <p>
+          The <a href="https://github.com/webcomponents/custom-elements-manifest" target="_blank" rel="noopener">Custom Elements Manifest</a>
+          is a machine-readable JSON file that describes your component's API. Tools like Storybook,
+          VS Code extensions, and documentation generators consume it automatically.
+        </p>
+
+        <pre><code># Generate from JSDoc comments using the analyser
+npx @custom-elements-manifest/analyzer analyze --globs "src/**/*.js"</code></pre>
+
+        <p>
+          Annotate your component with JSDoc so the analyser can extract the manifest:
+        </p>
+
+        <span class="code-label">documented component</span>
+        <pre><code>/**
+ * A badge component for displaying short status labels.
+ *
+ * @element mf-badge
+ *
+ * @attr &#123;string&#125; [variant=default] - Visual variant: default | info | success | warning | error
+ * @attr &#123;number&#125; [count] - Numeric count to display
+ *
+ * @cssprop [--mf-badge-bg] - Badge background color
+ * @cssprop [--mf-badge-radius=9999px] - Border radius
+ *
+ * @fires mf-dismiss - Fired when the dismiss button is clicked
+ */
+class MfBadge extends HTMLElement &#123; /* ... */ &#125;</code></pre>
+      </section>
+
+      <!-- ========================================================== -->
+      <!-- 11 — MAINTAINABILITY -->
+      <!-- ========================================================== -->
+      <section id="maintainability" class="guide-section">
+        <h2><span class="section-num">11</span> Maintainability</h2>
+        <p class="section-lead">
+          The best component is one that still makes sense six months later when a different
+          developer opens the file at 9pm to fix a production bug.
+        </p>
+
+        <h3>Semantic Versioning</h3>
+        <p>
+          Follow <a href="https://semver.org" target="_blank" rel="noopener">semver</a> strictly.
+          Adding a new optional attribute is a <code>minor</code>. Renaming an existing one is a
+          <code>major</code> (it's a breaking change). Fixing a bug is a <code>patch</code>.
+          Maintain a <code>CHANGELOG.md</code>.
+        </p>
+
+        <h3>Private by Default</h3>
+        <p>
+          Use JavaScript private class fields (<code>#</code> prefix) for internal methods and state.
+          Anything that isn't part of the public API should be private. This keeps the documented
+          surface minimal and prevents consumers from accidentally depending on implementation details.
+        </p>
+
+        <pre><code>class MfAccordion extends HTMLElement &#123;
+  // Private state — not accessible from outside
+  #isOpen = false;
+  #panel = null;
+
+  // Private methods
+  #toggle() &#123;
+    this.#isOpen = !this.#isOpen;
+    this.#panel?.setAttribute('aria-hidden', String(!this.#isOpen));
+  &#125;
+
+  // Public API — documented and stable
+  open() &#123; this.#isOpen = true; this.#render(); &#125;
+  close() &#123; this.#isOpen = false; this.#render(); &#125;
+  toggle() &#123; this.#toggle(); &#125;
+
+  get open() &#123; return this.#isOpen; &#125;
+&#125;</code></pre>
+
+        <h3>Testing: 80%+ Coverage</h3>
+        <p>
+          Web components are testable with standard DOM APIs. Use
+          <a href="https://vitest.dev" target="_blank" rel="noopener">Vitest</a> with
+          <code>happy-dom</code> or
+          <a href="https://open-wc.org/docs/testing/testing-package/" target="_blank" rel="noopener">@open-wc/testing</a>
+          for a real browser testing environment:
+        </p>
+
+        <pre><code>import &#123; fixture, html, expect &#125; from '@open-wc/testing';
+import '../src/mf-badge.js';
+
+describe('mf-badge', () => &#123;
+  it('reflects the count attribute', async () => &#123;
+    const el = await fixture(html&#96;&lt;mf-badge count="5"&gt;&lt;/mf-badge&gt;&#96;);
+    expect(el.count).to.equal(5);
+  &#125;);
+
+  it('fires mf-dismiss when the dismiss button is clicked', async () => &#123;
+    const el = await fixture(html&#96;&lt;mf-badge dismissible&gt;Label&lt;/mf-badge&gt;&#96;);
+    let fired = false;
+    el.addEventListener('mf-dismiss', () => &#123; fired = true; &#125;);
+
+    el.shadowRoot.querySelector('[part="dismiss"]').click();
+    expect(fired).to.be.true;
+  &#125;);
+&#125;);</code></pre>
+
+        <h3>Modern JavaScript — Always</h3>
+        <p>
+          Write against the current ECMAScript standard. Private class fields, optional chaining,
+          nullish coalescing, <code>structuredClone</code>, <code>crypto.randomUUID</code>, top-level await —
+          these are all available in evergreen browsers. Code that targets IE11 or legacy
+          environments is not within scope of this guide.
+        </p>
+
+        <pre><code>// Modern, clean, idiomatic
+class MfSelect extends HTMLElement &#123;
+  #options = [];
+  #selected = null;
+
+  get value() &#123; return this.#selected?.value ?? null; &#125;
+
+  #findOption = (val) =>
+    this.#options.find((&#123; value &#125;) => value === val) ?? null;
+
+  select(val) &#123;
+    this.#selected = this.#findOption(val);
+    this.dispatchEvent(new CustomEvent('mf-change', &#123;
+      bubbles: true,
+      composed: true,
+      detail: &#123; value: this.value &#125;,
+    &#125;));
+  &#125;
+&#125;</code></pre>
+
+        <aside class="tip">
+          <p>
+            <strong>Bare module specifiers in production:</strong> Write
+            <code>import &#123; html &#125; from 'lit'</code> rather than relative paths when publishing to npm.
+            Your build tool (Vite, Rollup, esbuild) resolves them. Consumers benefit from tree-shaking
+            and their own version resolution.
+          </p>
+        </aside>
+
+        <h3>Quick Checklist</h3>
+        <ul>
+          <li>Private fields (<code>#</code>) for all internal state and methods</li>
+          <li>JSDoc on every public attribute, property, event, CSS custom property, and slot</li>
+          <li><code>static observedAttributes</code> only lists attributes the component actually uses</li>
+          <li><code>disconnectedCallback</code> removes all event listeners added in <code>connectedCallback</code></li>
+          <li>Tests for the happy path, the error path, and every public event</li>
+          <li><code>CHANGELOG.md</code> updated on every release</li>
+          <li><code>custom-elements.json</code> generated and committed</li>
+          <li>Live demo linked from the README</li>
+        </ul>
+      </section>
+
+      <!-- ========================================================== -->
+      <!-- ABOUT THE AUTHOR -->
+      <!-- ========================================================== -->
+      <div class="author-card">
+        <div class="author-avatar" aria-hidden="true">MF</div>
+        <div class="author-bio">
+          <h3>Manuel Fosela — manufosela</h3>
+          <p>
+            Frontend architect and web standards nerd based in Spain. Has been building
+            web components since the v0 polyfill era, authored 50+ open-source custom elements,
+            and still thinks the best UI framework is a well-considered <code>HTMLElement</code>.
+            Writes about components, design systems, and the philosophy of web development.
+          </p>
+          <div class="author-links">
+            <a href="https://dev.to/manufosela" target="_blank" rel="noopener">dev.to/manufosela</a>
+            <a href="https://manufosela.dev" target="_blank" rel="noopener">manufosela.dev</a>
+            <a href="https://github.com/manufosela" target="_blank" rel="noopener">github.com/manufosela</a>
+          </div>
+        </div>
+      </div>
+
+    </article>
+  </div>
+</BaseLayout>
