@@ -1,5 +1,5 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 ---
 
 <style>
@@ -471,25 +471,25 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   }
 </style>
 
-<BaseLayout title="Building Web Components — A Practical Guide | manufosela.dev" locale="en" translationPath="/es/guide/">
+<BaseLayout title="Construyendo Web Components — Guía Práctica | manufosela.dev" locale="es" translationPath="/guide/">
 
   <div class="guide-wrapper">
 
     <!-- -- Sidebar TOC ------------------------------------------- -->
-    <nav class="toc" aria-label="Table of contents">
-      <h2>Contents</h2>
+    <nav class="toc" aria-label="Tabla de contenidos">
+      <h2>Contenidos</h2>
       <ol>
-        <li><a href="#when-to-build"><span class="toc-num">01</span>When to Build</a></li>
-        <li><a href="#single-responsibility"><span class="toc-num">02</span>Single Responsibility</a></li>
-        <li><a href="#naming"><span class="toc-num">03</span>Naming Your Components</a></li>
-        <li><a href="#data-flow"><span class="toc-num">04</span>Data Flow</a></li>
-        <li><a href="#communication"><span class="toc-num">05</span>Component Communication</a></li>
-        <li><a href="#light-dom"><span class="toc-num">06</span>Use the Light DOM</a></li>
-        <li><a href="#error-handling"><span class="toc-num">07</span>Error Handling</a></li>
-        <li><a href="#accessibility"><span class="toc-num">08</span>Accessibility First</a></li>
-        <li><a href="#performance"><span class="toc-num">09</span>Performance</a></li>
-        <li><a href="#documentation"><span class="toc-num">10</span>Documentation</a></li>
-        <li><a href="#maintainability"><span class="toc-num">11</span>Maintainability</a></li>
+        <li><a href="/es/guide/#when-to-build"><span class="toc-num">01</span>Cuándo construir</a></li>
+        <li><a href="/es/guide/#single-responsibility"><span class="toc-num">02</span>Responsabilidad única</a></li>
+        <li><a href="/es/guide/#naming"><span class="toc-num">03</span>Nombrar tus componentes</a></li>
+        <li><a href="/es/guide/#data-flow"><span class="toc-num">04</span>Flujo de datos</a></li>
+        <li><a href="/es/guide/#communication"><span class="toc-num">05</span>Comunicación entre componentes</a></li>
+        <li><a href="/es/guide/#light-dom"><span class="toc-num">06</span>Usa el light DOM</a></li>
+        <li><a href="/es/guide/#error-handling"><span class="toc-num">07</span>Gestión de errores</a></li>
+        <li><a href="/es/guide/#accessibility"><span class="toc-num">08</span>Accesibilidad primero</a></li>
+        <li><a href="/es/guide/#performance"><span class="toc-num">09</span>Rendimiento</a></li>
+        <li><a href="/es/guide/#documentation"><span class="toc-num">10</span>Documentación</a></li>
+        <li><a href="/es/guide/#maintainability"><span class="toc-num">11</span>Mantenibilidad</a></li>
       </ol>
     </nav>
 
@@ -497,82 +497,82 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <article class="guide-article">
 
       <header class="guide-header">
-        <p class="guide-eyebrow">Web Components Guide</p>
-        <h1 class="guide-title">Building Web Components —<br /><span>A Practical Guide</span></h1>
+        <p class="guide-eyebrow">Guía de Web Components</p>
+        <h1 class="guide-title">Construyendo Web Components —<br /><span>Guía Práctica</span></h1>
         <p class="guide-subtitle">
-          Principles, patterns, and battle-tested best practices from building
-          50+ production components. Framework-agnostic, standard-first, and
-          unapologetically opinionated.
+          Principios, patrones y buenas prácticas contrastadas en producción,
+          extraídas de más de 50 componentes reales. Sin dependencia de framework,
+          centrado en el estándar, y con opiniones propias sin complejos.
         </p>
         <div class="guide-meta">
-          <span>By manufosela</span>
-          <span>~25 min read</span>
-          <span>Updated April 2026</span>
+          <span>Por manufosela</span>
+          <span>~25 min de lectura</span>
+          <span>Actualizado abril 2026</span>
         </div>
       </header>
 
       <p class="mobile-toc-note">
-        Tip: On desktop, a sticky table of contents appears on the left.
+        Consejo: en escritorio, verás una tabla de contenidos fija a la izquierda.
       </p>
 
       <!-- ========================================================== -->
       <!-- 01 — WHEN TO BUILD -->
       <!-- ========================================================== -->
       <section id="when-to-build" class="guide-section">
-        <h2><span class="section-num">01</span> When (and When Not) to Build a Web Component</h2>
+        <h2><span class="section-num">01</span> Cuándo (y cuándo no) construir un Web Component</h2>
         <p class="section-lead">
-          The biggest mistake developers make isn't building bad components — it's building unnecessary ones.
-          Before you reach for <code>customElements.define</code>, ask yourself four questions.
+          El error más grande que cometen los desarrolladores no es construir malos componentes — es construir
+          componentes innecesarios. Antes de llegar a <code>customElements.define</code>, hazte cuatro preguntas.
         </p>
 
-        <h3>The Four Criteria</h3>
-        <p>A piece of UI deserves to be a custom element if it meets <strong>at least one</strong> of these:</p>
+        <h3>Los cuatro criterios</h3>
+        <p>Un fragmento de interfaz merece ser un custom element si cumple <strong>al menos uno</strong> de estos:</p>
 
         <ol>
           <li>
-            <strong>It's genuinely reusable.</strong> It will appear in more than one place, in more than one project,
-            or it serves a sufficiently generic purpose that other teams could use it unchanged.
+            <strong>Es genuinamente reutilizable.</strong> Aparecerá en más de un lugar, en más de un proyecto,
+            o tiene un propósito suficientemente genérico como para que otros equipos puedan usarlo sin modificarlo.
           </li>
           <li>
-            <strong>It provides a presentation that doesn't exist in HTML.</strong> A <code>&lt;my-rating-stars&gt;</code>
-            component makes sense. A <code>&lt;my-div-with-padding&gt;</code> does not.
+            <strong>Ofrece una presentación que no existe en HTML.</strong> Un componente <code>&lt;my-rating-stars&gt;</code>
+            tiene sentido. Un <code>&lt;my-div-with-padding&gt;</code> no.
           </li>
           <li>
-            <strong>It has meaningful encapsulated behaviour.</strong> It does something — handles interaction,
-            manages state, orchestrates child elements. Pure layout is not behaviour.
+            <strong>Tiene un comportamiento encapsulado con significado propio.</strong> Hace algo — gestiona interacciones,
+            mantiene estado, orquesta elementos hijos. El layout puro no es comportamiento.
           </li>
           <li>
-            <strong>It needs to abstract its design from its context.</strong> It can be dropped into any page or
-            any framework without knowing anything about the host application.
+            <strong>Necesita abstraer su diseño de su contexto.</strong> Puede insertarse en cualquier página o
+            cualquier framework sin saber nada sobre la aplicación que lo aloja.
           </li>
         </ol>
 
         <aside class="opinion">
           <p>
-            <strong>My take:</strong> If none of those four apply, what you have is a <em>template</em>, not a component.
-            A template is fine! Reach for a server-side partial, a plain HTML snippet, or a CSS utility class instead.
-            The web doesn't need more custom elements — it needs better ones.
+            <strong>Mi opinión:</strong> Si ninguno de esos cuatro aplica, lo que tienes es una <em>plantilla</em>, no un componente.
+            ¡Y no pasa nada! Usa un partial de servidor, un fragmento HTML plano o una clase de utilidad CSS.
+            La web no necesita más custom elements — necesita mejores.
           </p>
         </aside>
 
-        <h3>The Framework Trap</h3>
+        <h3>La trampa del framework</h3>
         <p>
-          Most frontend education teaches us <em>how</em> to use a framework, not <em>when</em> to use one.
-          The mental model becomes: every UI is a component, every component needs a framework.
-          Web components are the standard-library answer to this: they run natively in every browser,
-          ship without a runtime, and interoperate with React, Vue, Angular, Svelte — or no framework at all.
+          La mayor parte de la formación en frontend nos enseña <em>cómo</em> usar un framework, no <em>cuándo</em> usarlo.
+          El modelo mental resultante es: toda interfaz es un componente, y todo componente necesita un framework.
+          Los web components son la respuesta del estándar a esto: se ejecutan de forma nativa en cualquier navegador,
+          no arrastran ningún runtime, e interoperan con React, Vue, Angular, Svelte — o sin ningún framework.
         </p>
         <p>
-          Many sites don't need a framework. A product page, a documentation site, a portfolio —
-          these can be built with HTML, CSS, and a handful of custom elements. Start with the platform.
-          Add abstractions only when the platform falls short.
+          Muchos sitios no necesitan un framework. Una página de producto, un sitio de documentación, un portfolio —
+          pueden construirse con HTML, CSS y un puñado de custom elements. Empieza con la plataforma.
+          Añade abstracciones solo cuando la plataforma se quede corta.
         </p>
 
         <aside class="tip">
           <p>
-            <strong>Litmus test:</strong> If you can implement it in 10 lines of plain JS,
-            it probably doesn't need to be a component. If it has a lifecycle, manages its own
-            state, and surfaces an API to the outside world — that's a component.
+            <strong>Test de humo:</strong> Si puedes implementarlo en 10 líneas de JS plano,
+            probablemente no necesita ser un componente. Si tiene un ciclo de vida, gestiona su propio
+            estado y expone una API al exterior — eso sí es un componente.
           </p>
         </aside>
       </section>
@@ -581,28 +581,28 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <!-- 02 — SINGLE RESPONSIBILITY -->
       <!-- ========================================================== -->
       <section id="single-responsibility" class="guide-section">
-        <h2><span class="section-num">02</span> One Component, One Responsibility</h2>
+        <h2><span class="section-num">02</span> Un componente, una responsabilidad</h2>
         <p class="section-lead">
-          The Single Responsibility Principle applies to web components with particular force,
-          because components are exposed as public API. A component that does too much is hard to
-          use, hard to test, and impossible to reason about.
+          El Principio de Responsabilidad Única se aplica a los web components con especial fuerza,
+          porque los componentes se exponen como API pública. Un componente que hace demasiado es difícil de
+          usar, difícil de probar e imposible de razonar.
         </p>
 
-        <h3>Recognising Bloat</h3>
+        <h3>Reconocer el exceso de responsabilidades</h3>
         <p>
-          The clearest sign a component has grown too large is file length. If your component file
-          exceeds ~300 lines, it's almost certainly doing more than one thing. Other signals:
+          La señal más clara de que un componente ha crecido demasiado es la longitud del archivo. Si tu archivo
+          supera las ~300 líneas, casi seguro que está haciendo más de una cosa. Otras señales:
         </p>
         <ul>
-          <li>It has more than five or six observed attributes.</li>
-          <li>Its <code>connectedCallback</code> runs 20+ lines of setup logic.</li>
-          <li>You find yourself writing conditional rendering branches for fundamentally different states.</li>
-          <li>Its README has more than three usage examples, all significantly different.</li>
+          <li>Tiene más de cinco o seis atributos observados.</li>
+          <li>Su <code>connectedCallback</code> tiene 20+ líneas de lógica de inicialización.</li>
+          <li>Encuentras ramas de renderizado condicional para estados fundamentalmente distintos.</li>
+          <li>Su README tiene más de tres ejemplos de uso, todos significativamente diferentes.</li>
         </ul>
 
-        <h3>Splitting Strategies</h3>
+        <h3>Estrategias de división</h3>
         <p>
-          When a component grows too complex, split it at natural seams. Common patterns:
+          Cuando un componente se vuelve demasiado complejo, divídelo por sus costuras naturales. Patrones habituales:
         </p>
 
         <span class="code-label">Split: container / presentational</span>
@@ -614,11 +614,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   &lt;user-profile-card&gt;&lt;/user-profile-card&gt;
 &lt;/user-data-provider&gt;</code></pre>
 
-        <h3>Mixins for Shared Behaviour</h3>
+        <h3>Mixins para comportamiento compartido</h3>
         <p>
-          If multiple components share a behaviour (drag-and-drop, lazy loading, a specific
-          ARIA pattern), extract it into a mixin rather than a base class or a utility import.
-          Mixins keep the component's class hierarchy flat and the shared logic decoupled.
+          Si varios componentes comparten un comportamiento (arrastrar y soltar, carga diferida, un patrón
+          ARIA concreto), extráelo a un mixin en lugar de una clase base o una importación de utilidad.
+          Los mixins mantienen la jerarquía de clases plana y el comportamiento compartido desacoplado.
         </p>
 
         <span class="code-label">mixin-focusable.js</span>
@@ -649,16 +649,16 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <!-- 03 — NAMING -->
       <!-- ========================================================== -->
       <section id="naming" class="guide-section">
-        <h2><span class="section-num">03</span> Naming Your Components</h2>
+        <h2><span class="section-num">03</span> Cómo nombrar tus componentes</h2>
         <p class="section-lead">
-          Custom element tag names are global and cannot be redefined. Choose them carefully,
-          because a conflict in the registry will silently break one of the two colliding elements.
+          Los nombres de etiquetas de custom elements son globales y no se pueden redefinir. Elígelos con cuidado,
+          porque un conflicto en el registro romperá silenciosamente uno de los dos elementos en colisión.
         </p>
 
-        <h3>Use a Namespace Prefix</h3>
+        <h3>Usa un prefijo de espacio de nombres</h3>
         <p>
-          Tag names must contain a hyphen (that's the spec's way of distinguishing custom elements
-          from future HTML elements). Use your organisation name or design system name as the prefix:
+          Los nombres de etiqueta deben contener un guion (así es como la especificación distingue los custom elements
+          de los futuros elementos HTML). Usa el nombre de tu organización o sistema de diseño como prefijo:
         </p>
 
         <pre><code>&lt;!-- Bad: likely to collide --&gt;
@@ -670,54 +670,54 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 &lt;my-ds-modal&gt;&lt;/my-ds-modal&gt;</code></pre>
 
         <p>
-          The prefix doubles as a discovery mechanism — developers grep for <code>manufosela-</code>
-          to find all components from a given library.
+          El prefijo sirve también como mecanismo de descubrimiento: los desarrolladores hacen grep de <code>manufosela-</code>
+          para encontrar todos los componentes de una biblioteca concreta.
         </p>
 
-        <h3>Be Descriptive, Not Clever</h3>
+        <h3>Sé descriptivo, no ingenioso</h3>
         <p>
-          The name should communicate what the component <em>is</em>, not how it's implemented.
-          <code>&lt;mf-accordion&gt;</code> is good. <code>&lt;mf-collapsible-details-wrapper&gt;</code> is too
-          implementation-specific. <code>&lt;mf-thing&gt;</code> is useless.
+          El nombre debe comunicar qué <em>es</em> el componente, no cómo está implementado.
+          <code>&lt;mf-accordion&gt;</code> es bueno. <code>&lt;mf-collapsible-details-wrapper&gt;</code> es demasiado
+          específico de implementación. <code>&lt;mf-thing&gt;</code> no dice nada.
         </p>
 
         <table class="guide-table">
           <thead>
             <tr>
-              <th>Pattern</th>
-              <th>Example</th>
-              <th>Verdict</th>
+              <th>Patrón</th>
+              <th>Ejemplo</th>
+              <th>Veredicto</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>No namespace</td>
+              <td>Sin espacio de nombres</td>
               <td><code>&lt;calendar&gt;</code></td>
-              <td>Collision risk — avoid</td>
+              <td>Riesgo de colisión — evitar</td>
             </tr>
             <tr>
-              <td>Org prefix</td>
+              <td>Prefijo de organización</td>
               <td><code>&lt;mf-calendar&gt;</code></td>
-              <td>Good</td>
+              <td>Bien</td>
             </tr>
             <tr>
-              <td>Design system prefix</td>
+              <td>Prefijo de sistema de diseño</td>
               <td><code>&lt;manufosela-calendar&gt;</code></td>
-              <td>Best — unambiguous</td>
+              <td>Mejor — sin ambigüedad</td>
             </tr>
             <tr>
-              <td>Version in name</td>
+              <td>Versión en el nombre</td>
               <td><code>&lt;mf-calendar-v2&gt;</code></td>
-              <td>Only if truly needed alongside v1</td>
+              <td>Solo si convive necesariamente con v1</td>
             </tr>
           </tbody>
         </table>
 
         <aside class="tip">
           <p>
-            <strong>Scoped custom elements</strong> are a proposal in active development that would let
-            you register elements scoped to a shadow root, eliminating global collisions entirely.
-            It's not standardised yet — keep an eye on it.
+            <strong>Scoped custom elements</strong> es una propuesta en desarrollo activo que permitiría
+            registrar elementos con scope dentro de un shadow root, eliminando por completo las colisiones globales.
+            Aún no está estandarizado — vale la pena seguirlo.
           </p>
         </aside>
       </section>
@@ -726,17 +726,17 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <!-- 04 — DATA FLOW -->
       <!-- ========================================================== -->
       <section id="data-flow" class="guide-section">
-        <h2><span class="section-num">04</span> Data Flow: Attributes In, Events Out</h2>
+        <h2><span class="section-num">04</span> Flujo de datos: atributos hacia dentro, eventos hacia fuera</h2>
         <p class="section-lead">
-          This is the golden rule of web component API design. Data flows downward through attributes
-          and properties. Events flow upward. Break this rule and you'll fight your component forever.
+          Esta es la regla de oro del diseño de API en web components. Los datos fluyen hacia abajo mediante atributos
+          y propiedades. Los eventos fluyen hacia arriba. Rompe esta regla y estarás peleando con tu componente para siempre.
         </p>
 
-        <h3>Attributes vs Properties — Know the Difference</h3>
+        <h3>Atributos vs. propiedades — conoce la diferencia</h3>
         <p>
-          An <strong>attribute</strong> is part of the HTML markup — it lives in the DOM tree, is
-          serialised to a string, and can be set before the element is registered. A <strong>property</strong>
-          is on the JavaScript object — it's set programmatically and can hold any value.
+          Un <strong>atributo</strong> forma parte del marcado HTML — vive en el árbol del DOM, se serializa como cadena
+          de texto y puede establecerse antes de que el elemento esté registrado. Una <strong>propiedad</strong>
+          pertenece al objeto JavaScript — se asigna programáticamente y puede contener cualquier valor.
         </p>
 
         <pre><code>// Attribute — set in HTML or via setAttribute
@@ -747,23 +747,23 @@ element.setAttribute('count', '5');
 element.items = [&#123; id: 1, label: 'Apple' &#125;, &#123; id: 2, label: 'Banana' &#125;];
 element.config = &#123; debounce: 300, threshold: 0.5 &#125;;</code></pre>
 
-        <p>Use the following heuristics:</p>
+        <p>Usa estas heurísticas:</p>
         <ul>
-          <li><strong>Attributes:</strong> booleans, strings, numbers, enums, IDs. Anything you'd write in HTML.</li>
-          <li><strong>Properties:</strong> arrays, objects, functions, binary data. Anything that can't round-trip through a string without loss.</li>
+          <li><strong>Atributos:</strong> booleanos, cadenas, números, enumeraciones, IDs. Todo lo que escribirías en HTML.</li>
+          <li><strong>Propiedades:</strong> arrays, objetos, funciones, datos binarios. Todo lo que no puede hacer un viaje de ida y vuelta por una cadena sin perder información.</li>
         </ul>
 
         <aside class="warning">
           <p>
-            <strong>Never override global HTML attributes</strong> like <code>tabindex</code>, <code>role</code>,
-            <code>aria-*</code>, <code>id</code>, or <code>class</code> with your own semantics.
-            Never auto-apply a class to the host element from within the component — that's the consumer's job.
+            <strong>Nunca sobreescribas atributos HTML globales</strong> como <code>tabindex</code>, <code>role</code>,
+            <code>aria-*</code>, <code>id</code> o <code>class</code> con tu propia semántica.
+            Nunca apliques automáticamente una clase al elemento host desde dentro del componente — eso es trabajo del consumidor.
           </p>
         </aside>
 
-        <h3>Reflecting Attributes to Properties</h3>
+        <h3>Reflejar atributos en propiedades</h3>
         <p>
-          Mirror your observed attributes as JS properties with getters/setters so consumers can use either API:
+          Expón tus atributos observados como propiedades JS mediante getters/setters para que los consumidores puedan usar cualquiera de las dos APIs:
         </p>
 
         <span class="code-label">mf-badge.js</span>
@@ -798,11 +798,11 @@ element.config = &#123; debounce: 300, threshold: 0.5 &#125;;</code></pre>
 
 customElements.define('mf-badge', MfBadge);</code></pre>
 
-        <h3>Custom Events for Outbound Communication</h3>
+        <h3>Custom events para la comunicación saliente</h3>
         <p>
-          When a component needs to tell the outside world something happened, dispatch a
-          <code>CustomEvent</code>. Use a consistent naming convention: lowercase, hyphen-separated,
-          prefixed with the component name if there's any risk of collision.
+          Cuando un componente necesita informar al exterior de que algo ha ocurrido, lanza un
+          <code>CustomEvent</code>. Usa una convención de nombres consistente: minúsculas, separado por guiones,
+          prefijado con el nombre del componente si hay riesgo de colisión.
         </p>
 
         <span class="code-label">dispatching events</span>
@@ -824,19 +824,19 @@ document.querySelector('mf-combobox')
 
         <aside class="warning">
           <p>
-            <strong>When to set <code>composed: true</code></strong> — only if the event needs to cross
-            shadow DOM boundaries (i.e., a host page needs to hear it). For component-internal events
-            that only other components in the same tree will handle, leave <code>composed: false</code>.
-            Over-using <code>composed: true</code> leaks implementation details.
+            <strong>Cuándo usar <code>composed: true</code></strong> — solo si el evento necesita cruzar
+            las fronteras del shadow DOM (es decir, si la página host necesita escucharlo). Para eventos
+            internos al componente que solo manejarán otros componentes en el mismo árbol, deja <code>composed: false</code>.
+            El abuso de <code>composed: true</code> filtra detalles de implementación.
           </p>
         </aside>
 
-        <h3>Don't Fire Events in Response to Property Sets</h3>
+        <h3>No lances eventos en respuesta a asignaciones de propiedades</h3>
         <p>
-          If the parent sets <code>element.value = 'foo'</code>, the parent <em>already knows</em>
-          what the new value is. Firing a <code>change</code> event in response creates a feedback loop
-          and surprises consumers. Reserve events for user interactions and internal async completions —
-          things the parent couldn't have initiated.
+          Si el padre hace <code>element.value = 'foo'</code>, el padre <em>ya sabe</em>
+          cuál es el nuevo valor. Lanzar un evento <code>change</code> en respuesta crea un bucle de retroalimentación
+          y sorprende a los consumidores. Reserva los eventos para las interacciones del usuario y las finalizaciones asíncronas internas —
+          cosas que el padre no pudo haber iniciado.
         </p>
       </section>
 
@@ -844,21 +844,21 @@ document.querySelector('mf-combobox')
       <!-- 05 — COMMUNICATION -->
       <!-- ========================================================== -->
       <section id="communication" class="guide-section">
-        <h2><span class="section-num">05</span> Component Communication</h2>
+        <h2><span class="section-num">05</span> Comunicación entre componentes</h2>
         <p class="section-lead">
-          Components should be autonomous. They shouldn't know about their siblings.
-          They shouldn't walk the DOM tree looking for parents. Communication happens through events.
+          Los componentes deben ser autónomos. No deberían saber nada de sus hermanos.
+          No deberían recorrer el árbol del DOM buscando padres. La comunicación ocurre a través de eventos.
         </p>
 
-        <h3>Events Over Hierarchy</h3>
+        <h3>Eventos antes que jerarquía</h3>
         <p>
-          When component A needs to tell component B something, the temptation is to write
-          <code>parent.querySelector('mf-b').doSomething()</code>. Resist it. The moment you introduce
-          a direct reference, you've coupled two components that should be independent.
+          Cuando el componente A necesita decirle algo al componente B, la tentación es escribir
+          <code>parent.querySelector('mf-b').doSomething()</code>. Resístela. En el momento en que introduces
+          una referencia directa, has acoplado dos componentes que deberían ser independientes.
         </p>
         <p>
-          Instead, dispatch an event upward and let the application (or a coordinating container)
-          relay the data downward as an attribute:
+          En su lugar, lanza un evento hacia arriba y deja que la aplicación (o un contenedor coordinador)
+          retransmita los datos hacia abajo como atributo:
         </p>
 
         <pre><code>// mf-search dispatches upward
@@ -872,30 +872,29 @@ searchEl.addEventListener('mf-search', (e) => &#123;
   &#125;);
 &#125;);</code></pre>
 
-        <h3>Phenotypic Thinking</h3>
+        <h3>Pensamiento fenotípico</h3>
         <p>
-          Atomic Design organises components by size: atoms, molecules, organisms. It's a useful
-          mental model, but it encourages thinking about components as a <em>family tree</em>
-          (parents containing children who contain grandchildren). This leads to tight coupling.
+          El Atomic Design organiza los componentes por tamaño: átomos, moléculas, organismos. Es un modelo mental útil,
+          pero fomenta pensar en los componentes como un <em>árbol genealógico</em>
+          (padres que contienen hijos que contienen nietos). Esto lleva al acoplamiento rígido.
         </p>
         <p>
-          A more useful frame is <strong>phenotypic</strong>: classify components by their visible
-          traits and how they interact with their environment. A <code>&lt;mf-tooltip&gt;</code> is
-          defined by how it <em>appears</em> (near a trigger, floating, transient) and how it
-          <em>responds to its environment</em> (focus, hover, scroll). It doesn't care whether
-          its trigger is a button atom or a complex form molecule.
+          Un marco más útil es el <strong>fenotípico</strong>: clasifica los componentes por sus rasgos visibles
+          y cómo interactúan con su entorno. Un <code>&lt;mf-tooltip&gt;</code> se define por cómo
+          <em>aparece</em> (cerca de su disparador, flotando, transitorio) y cómo
+          <em>responde a su entorno</em> (foco, hover, scroll). No le importa si su disparador es un átomo botón o una molécula de formulario compleja.
         </p>
         <p>
-          Components should be <strong>symbiotic</strong>, not familial. They coexist and cooperate
-          through shared conventions (events, attributes, slots), not through direct knowledge of each other.
+          Los componentes deben ser <strong>simbióticos</strong>, no familiares. Coexisten y cooperan
+          a través de convenciones compartidas (eventos, atributos, slots), no a través del conocimiento directo mutuo.
         </p>
 
         <aside class="opinion">
           <p>
-            <strong>Opinion:</strong> The Atomic Design hierarchy is a great communication tool for
-            design teams. It becomes a trap when developers use it to justify tight coupling between
-            components. "This molecule <em>contains</em> those atoms" should mean composition via slots,
-            not class inheritance or direct DOM references.
+            <strong>Opinión:</strong> La jerarquía de Atomic Design es una herramienta de comunicación excelente para
+            los equipos de diseño. Se convierte en una trampa cuando los desarrolladores la usan para justificar el acoplamiento rígido entre
+            componentes. "Esta molécula <em>contiene</em> esos átomos" debería significar composición mediante slots,
+            no herencia de clases ni referencias directas al DOM.
           </p>
         </aside>
       </section>
@@ -904,21 +903,21 @@ searchEl.addEventListener('mf-search', (e) => &#123;
       <!-- 06 — LIGHT DOM -->
       <!-- ========================================================== -->
       <section id="light-dom" class="guide-section">
-        <h2><span class="section-num">06</span> Use the Light DOM</h2>
+        <h2><span class="section-num">06</span> Usa el light DOM</h2>
         <p class="section-lead">
-          Shadow DOM is powerful, but it's opaque — to search engines, to screen readers (partially),
-          and to the application layer. Use it for implementation; use slots and light DOM for content.
+          El shadow DOM es poderoso, pero es opaco — para los motores de búsqueda, para los lectores de pantalla (en parte),
+          y para la capa de aplicación. Úsalo para la implementación; usa slots y light DOM para el contenido.
         </p>
 
-        <h3>Shadow DOM Is Invisible to Crawlers</h3>
+        <h3>El shadow DOM es invisible para los crawlers</h3>
         <p>
-          Content inside a shadow root is not indexed by search engines (as of 2026, Google can
-          partially index it but the situation is inconsistent). Content that needs to be discovered —
-          headings, body text, product names, navigation labels — belongs in the light DOM.
+          El contenido dentro de un shadow root no está indexado por los motores de búsqueda (a fecha de 2026, Google puede
+          indexarlo parcialmente, pero la situación es inconsistente). El contenido que necesita ser descubierto —
+          encabezados, texto del cuerpo, nombres de productos, etiquetas de navegación — pertenece al light DOM.
         </p>
         <p>
-          Design your components to accept semantic HTML as their content via <strong>slots</strong>,
-          and let the component apply the visual treatment:
+          Diseña tus componentes para que acepten HTML semántico como contenido mediante <strong>slots</strong>,
+          y deja que el componente aplique el tratamiento visual:
         </p>
 
         <span class="code-label">mf-card.html (consumer)</span>
@@ -952,9 +951,9 @@ searchEl.addEventListener('mf-search', (e) => &#123;
   &#125;
 &#125;</code></pre>
 
-        <h3>Never Pass JSON as Attributes</h3>
+        <h3>Nunca pases JSON como atributos</h3>
         <p>
-          This pattern appears everywhere and it's wrong on multiple levels:
+          Este patrón aparece en todas partes y es incorrecto en varios niveles:
         </p>
 
         <pre><code>&lt;!-- DO NOT DO THIS --&gt;
@@ -962,12 +961,12 @@ searchEl.addEventListener('mf-search', (e) => &#123;
 &lt;/mf-list&gt;</code></pre>
 
         <p>
-          The issues: it's not indexable, it breaks when the JSON contains quotes, it's inaccessible
-          to assistive technologies, and it leaks data structure into markup.
+          Los problemas: no es indexable, se rompe cuando el JSON contiene comillas, es inaccesible
+          para las tecnologías asistivas, y filtra la estructura de datos al marcado.
         </p>
         <p>
-          The right approach is to put the data in the light DOM as semantic HTML, and let the
-          component read and enhance it at render time:
+          El enfoque correcto es poner los datos en el light DOM como HTML semántico, y dejar que el
+          componente los lea y los mejore en el momento del renderizado:
         </p>
 
         <span class="code-label">the right way</span>
@@ -988,15 +987,15 @@ searchEl.addEventListener('mf-search', (e) => &#123;
 &#125;</code></pre>
 
         <p>
-          The content was already in the light DOM. It's indexed by search engines. Screen readers
-          can access it even before JavaScript loads. The component enhances it — it doesn't replace it.
+          El contenido ya estaba en el light DOM. Los motores de búsqueda lo indexan. Los lectores de pantalla
+          pueden acceder a él incluso antes de que cargue JavaScript. El componente lo mejora — no lo reemplaza.
         </p>
 
         <aside class="tip">
           <p>
-            <strong>Exception:</strong> If you must pass complex data programmatically (e.g. from a
-            JS-only context with no HTML author), use a <em>property</em> (<code>element.items = [...]</code>),
-            never an attribute. Properties can hold any value without serialisation.
+            <strong>Excepción:</strong> Si necesitas pasar datos complejos programáticamente (por ejemplo, desde un
+            contexto solo-JS sin autor HTML), usa una <em>propiedad</em> (<code>element.items = [...]</code>),
+            nunca un atributo. Las propiedades pueden contener cualquier valor sin serialización.
           </p>
         </aside>
       </section>
@@ -1005,17 +1004,17 @@ searchEl.addEventListener('mf-search', (e) => &#123;
       <!-- 07 — ERROR HANDLING -->
       <!-- ========================================================== -->
       <section id="error-handling" class="guide-section">
-        <h2><span class="section-num">07</span> Error Handling: Fail Loud</h2>
+        <h2><span class="section-num">07</span> Gestión de errores: falla ruidosamente</h2>
         <p class="section-lead">
-          Silent failures are the worst kind. If a required attribute is missing, if an API call
-          returns garbage, if configuration is invalid — say so clearly. Your future self will thank you.
+          Los fallos silenciosos son los peores. Si falta un atributo requerido, si una llamada a la API
+          devuelve basura, si la configuración es inválida — dilo con claridad. Tu yo del futuro te lo agradecerá.
         </p>
 
-        <h3>Throw on Critical Requirements</h3>
+        <h3>Lanza excepciones ante requisitos críticos</h3>
         <p>
-          If a component <em>cannot function</em> without a particular attribute or property, throw
-          an error in <code>connectedCallback</code>. Don't render a broken empty state. Don't log
-          a warning that gets buried in the console. Throw.
+          Si un componente <em>no puede funcionar</em> sin un atributo o propiedad concretos, lanza
+          un error en <code>connectedCallback</code>. No renderices un estado vacío roto. No registres
+          una advertencia que quedará enterrada en la consola. Lanza.
         </p>
 
         <pre><code>connectedCallback() &#123;
@@ -1031,10 +1030,10 @@ searchEl.addEventListener('mf-search', (e) => &#123;
   this.#init(src);
 &#125;</code></pre>
 
-        <h3>Validate, Don't Assume</h3>
+        <h3>Valida, no asumas</h3>
         <p>
-          When an attribute value comes from outside (i.e., from a consumer), validate it against
-          the expected set of values before using it:
+          Cuando el valor de un atributo viene del exterior (es decir, de un consumidor), valídalo contra
+          el conjunto de valores esperados antes de usarlo:
         </p>
 
         <pre><code>static #VALID_VARIANTS = new Set(['default', 'info', 'success', 'warning', 'error']);
@@ -1054,23 +1053,23 @@ attributeChangedCallback(name, _, newVal) &#123;
 
         <aside class="warning">
           <p>
-            <strong>The <code>||</code> fallback trap:</strong> Code like
-            <code>const src = this.getAttribute('src') || '/default.mp4'</code> silently hides
-            misconfigured components. A consumer typos the attribute name, the component renders
-            a default, nobody notices until production. For critical config, use explicit validation
-            and throw or warn loudly.
+            <strong>La trampa del fallback con <code>||</code>:</strong> Código como
+            <code>const src = this.getAttribute('src') || '/default.mp4'</code> oculta silenciosamente
+            componentes mal configurados. El consumidor comete un error tipográfico en el nombre del atributo, el componente renderiza
+            un valor por defecto, nadie se da cuenta hasta producción. Para configuración crítica, usa validación explícita
+            y lanza o avisa ruidosamente.
           </p>
         </aside>
 
-        <h3>Graceful Degradation vs. Hard Failures</h3>
+        <h3>Degradación elegante vs. fallos duros</h3>
         <p>
-          Distinguish between truly critical requirements (missing = broken) and optional enhancements
-          (missing = reduced functionality):
+          Distingue entre requisitos verdaderamente críticos (ausente = roto) y mejoras opcionales
+          (ausente = funcionalidad reducida):
         </p>
         <ul>
-          <li><strong>Critical:</strong> <code>src</code> on a media player, <code>href</code> on a link component → throw</li>
-          <li><strong>Optional:</strong> <code>variant</code> on a badge, <code>icon</code> on a button → warn + use default</li>
-          <li><strong>Enhancement:</strong> <code>prefers-reduced-motion</code>, dark mode → detect + adapt silently</li>
+          <li><strong>Crítico:</strong> <code>src</code> en un reproductor de medios, <code>href</code> en un componente de enlace → lanza excepción</li>
+          <li><strong>Opcional:</strong> <code>variant</code> en un badge, <code>icon</code> en un botón → avisa + usa valor por defecto</li>
+          <li><strong>Mejora:</strong> <code>prefers-reduced-motion</code>, modo oscuro → detecta + adapta silenciosamente</li>
         </ul>
       </section>
 
@@ -1078,25 +1077,25 @@ attributeChangedCallback(name, _, newVal) &#123;
       <!-- 08 — ACCESSIBILITY -->
       <!-- ========================================================== -->
       <section id="accessibility" class="guide-section">
-        <h2><span class="section-num">08</span> Accessibility First</h2>
+        <h2><span class="section-num">08</span> Accesibilidad primero</h2>
         <p class="section-lead">
-          Accessibility is not a checklist item. It's a quality metric. A component that can't be
-          used with a keyboard or a screen reader is a broken component.
+          La accesibilidad no es un elemento de una lista de comprobación. Es una métrica de calidad. Un componente que no puede
+          usarse con teclado o con un lector de pantalla es un componente roto.
         </p>
 
-        <h3>Use Native Elements Where Possible</h3>
+        <h3>Usa elementos nativos siempre que sea posible</h3>
         <p>
-          The single biggest accessibility win is <em>not</em> re-implementing what the browser
-          already does. If you need a dialog, wrap <code>&lt;dialog&gt;</code>. If you need a disclosure
-          widget, build on <code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code>. The browser gives you
-          keyboard handling, focus management, and ARIA roles for free.
+          La mayor ganancia de accesibilidad es <em>no</em> reimplementar lo que el navegador
+          ya hace. Si necesitas un diálogo, envuelve <code>&lt;dialog&gt;</code>. Si necesitas un widget de revelación,
+          construye sobre <code>&lt;details&gt;</code> y <code>&lt;summary&gt;</code>. El navegador te da gestión
+          de teclado, gestión del foco y roles ARIA gratis.
         </p>
 
         <a class="demo-link" href="https://manufosela.dev" target="_blank" rel="noopener">
-          → Live demo: app-modal (wraps &lt;dialog&gt;)
+          → Demo en vivo: app-modal (envuelve &lt;dialog&gt;)
         </a>
         <a class="demo-link" href="https://manufosela.dev" target="_blank" rel="noopener">
-          → Live demo: behaviour-accordion (builds on &lt;details&gt;)
+          → Demo en vivo: behaviour-accordion (construido sobre &lt;details&gt;)
         </a>
 
         <span class="code-label">app-modal — wrapping &lt;dialog&gt;</span>
@@ -1122,10 +1121,10 @@ attributeChangedCallback(name, _, newVal) &#123;
   close() &#123; this.#dialog?.close(); &#125;
 &#125;</code></pre>
 
-        <h3>ARIA Where Native Falls Short</h3>
+        <h3>ARIA cuando el nativo se queda corto</h3>
         <p>
-          When there's no native element for the pattern you're building, add ARIA explicitly.
-          Apply it to the host element via <code>:host</code> or set it in <code>connectedCallback</code>:
+          Cuando no hay ningún elemento nativo para el patrón que estás construyendo, añade ARIA explícitamente.
+          Aplícalo al elemento host mediante <code>:host</code> o establécelo en <code>connectedCallback</code>:
         </p>
 
         <pre><code>connectedCallback() &#123;
@@ -1139,10 +1138,10 @@ attributeChangedCallback(name, _, newVal) &#123;
   this.addEventListener('keydown', this.#handleKeyNav);
 &#125;</code></pre>
 
-        <h3>CSS Custom Properties for Theming</h3>
+        <h3>CSS custom properties para la tematización</h3>
         <p>
-          Use <code>var()</code> with sensible fallbacks so your component participates in the host
-          page's design system without requiring configuration:
+          Usa <code>var()</code> con fallbacks razonables para que tu componente participe en el sistema de diseño de la página
+          sin requerir configuración:
         </p>
 
         <pre><code>:host &#123;
@@ -1158,9 +1157,9 @@ attributeChangedCallback(name, _, newVal) &#123;
   border-radius: var(--_radius);
 &#125;</code></pre>
 
-        <h3>Responsive &amp; Motion-Sensitive</h3>
+        <h3>Responsivo y sensible al movimiento</h3>
         <p>
-          Components should work at any viewport size. If you have animations, respect
+          Los componentes deben funcionar en cualquier tamaño de ventana. Si tienes animaciones, respeta
           <code>prefers-reduced-motion</code>:
         </p>
 
@@ -1177,12 +1176,12 @@ attributeChangedCallback(name, _, newVal) &#123;
   &#125;
 &#125;</code></pre>
 
-        <h3>Images: SVG Over Base64</h3>
+        <h3>Imágenes: SVG antes que Base64</h3>
         <p>
-          Inline SVG scales crisply at any resolution, has no extra HTTP request, supports CSS
-          animation, and keeps file sizes small. Base64-encoded images are none of those things.
-          Use SVG for icons and simple graphics. Use <code>&lt;img&gt;</code> with descriptive <code>alt</code>
-          for photographs.
+          El SVG en línea escala nítidamente a cualquier resolución, no requiere petición HTTP adicional, admite
+          animación CSS y mantiene el tamaño del archivo pequeño. Las imágenes codificadas en Base64 no tienen ninguna de esas cualidades.
+          Usa SVG para iconos y gráficos simples. Usa <code>&lt;img&gt;</code> con <code>alt</code> descriptivo
+          para fotografías.
         </p>
       </section>
 
@@ -1190,17 +1189,17 @@ attributeChangedCallback(name, _, newVal) &#123;
       <!-- 09 — PERFORMANCE -->
       <!-- ========================================================== -->
       <section id="performance" class="guide-section">
-        <h2><span class="section-num">09</span> Performance</h2>
+        <h2><span class="section-num">09</span> Rendimiento</h2>
         <p class="section-lead">
-          Here's something the framework ecosystem doesn't emphasise enough: you don't need a library
-          to build web components. The browser ships everything you need.
+          Algo que el ecosistema de frameworks no enfatiza suficiente: no necesitas una librería
+          para construir web components. El navegador ya incluye todo lo que necesitas.
         </p>
 
-        <h3>No Framework Required</h3>
+        <h3>Sin framework necesario</h3>
         <p>
-          Web components are part of the HTML specification. <code>HTMLElement</code>, <code>customElements</code>,
+          Los web components son parte de la especificación HTML. <code>HTMLElement</code>, <code>customElements</code>,
           <code>attachShadow</code>, <code>MutationObserver</code>, <code>IntersectionObserver</code>
-          — all standard browser APIs, zero dependencies, zero runtime cost.
+          — todas son APIs estándar del navegador, sin dependencias, sin coste de runtime.
         </p>
 
         <pre><code>// This ships as ~2KB minified + gzipped
@@ -1219,12 +1218,12 @@ class MfTooltip extends HTMLElement &#123;
   // ...
 &#125;</code></pre>
 
-        <h3>First Paint Matters</h3>
+        <h3>El primer pintado importa</h3>
         <p>
-          Define your components in a way that avoids layout shift. Set <code>display</code> on
-          <code>:host</code> to a non-inline value so the element takes up space before its
-          JavaScript runs. Use <code>:not(:defined)</code> to hide unconfigured components
-          gracefully:
+          Define tus componentes de forma que eviten el cambio de diseño (layout shift). Establece <code>display</code> en
+          <code>:host</code> a un valor no en línea para que el elemento ocupe espacio antes de que
+          se ejecute su JavaScript. Usa <code>:not(:defined)</code> para ocultar componentes no configurados
+          de forma elegante:
         </p>
 
         <pre><code>/* In your component styles */
@@ -1236,10 +1235,10 @@ mf-modal:not(:defined) &#123;
   visibility: hidden;
 &#125;</code></pre>
 
-        <h3>Lazy Load Where Appropriate</h3>
+        <h3>Carga diferida donde corresponda</h3>
         <p>
-          Components that are below the fold or conditionally shown don't need to be in the critical
-          path. Use dynamic <code>import()</code> and <code>IntersectionObserver</code> together:
+          Los componentes que están por debajo del pliegue o que se muestran condicionalmente no necesitan estar en la
+          ruta crítica. Usa <code>import()</code> dinámico junto con <code>IntersectionObserver</code>:
         </p>
 
         <pre><code>// Only load the component definition when it enters the viewport
@@ -1255,24 +1254,24 @@ const observer = new IntersectionObserver((entries) => &#123;
 document.querySelectorAll('mf-heavy-chart')
   .forEach((el) => observer.observe(el));</code></pre>
 
-        <h3>Minimise External Dependencies</h3>
+        <h3>Minimiza las dependencias externas</h3>
         <p>
-          Every dependency you add is a dependency your consumers must download. Ask for each one:
-          does this genuinely need a library, or is there a browser API that does the same job?
-          Today, that answer is "browser API" more often than ever.
+          Cada dependencia que añades es una dependencia que tus consumidores tienen que descargar. Pregúntate por cada una:
+          ¿realmente necesito una librería, o hay una API del navegador que hace lo mismo?
+          Hoy en día, la respuesta es "API del navegador" más a menudo que nunca.
         </p>
 
         <table class="guide-table">
           <thead>
-            <tr><th>Task</th><th>Library</th><th>Native alternative</th></tr>
+            <tr><th>Tarea</th><th>Librería</th><th>Alternativa nativa</th></tr>
           </thead>
           <tbody>
-            <tr><td>Animations</td><td>GSAP</td><td>Web Animations API / CSS transitions</td></tr>
-            <tr><td>Intersection detection</td><td>jQuery waypoints</td><td><code>IntersectionObserver</code></td></tr>
-            <tr><td>Resize detection</td><td>resize-sensor</td><td><code>ResizeObserver</code></td></tr>
-            <tr><td>DOM mutation</td><td>—</td><td><code>MutationObserver</code></td></tr>
-            <tr><td>Deep clone</td><td>lodash.cloneDeep</td><td><code>structuredClone()</code></td></tr>
-            <tr><td>Unique IDs</td><td>uuid</td><td><code>crypto.randomUUID()</code></td></tr>
+            <tr><td>Animaciones</td><td>GSAP</td><td>Web Animations API / transiciones CSS</td></tr>
+            <tr><td>Detección de intersección</td><td>jQuery waypoints</td><td><code>IntersectionObserver</code></td></tr>
+            <tr><td>Detección de redimensionado</td><td>resize-sensor</td><td><code>ResizeObserver</code></td></tr>
+            <tr><td>Mutación del DOM</td><td>—</td><td><code>MutationObserver</code></td></tr>
+            <tr><td>Clonado profundo</td><td>lodash.cloneDeep</td><td><code>structuredClone()</code></td></tr>
+            <tr><td>IDs únicos</td><td>uuid</td><td><code>crypto.randomUUID()</code></td></tr>
           </tbody>
         </table>
       </section>
@@ -1281,42 +1280,42 @@ document.querySelectorAll('mf-heavy-chart')
       <!-- 10 — DOCUMENTATION -->
       <!-- ========================================================== -->
       <section id="documentation" class="guide-section">
-        <h2><span class="section-num">10</span> Documentation</h2>
+        <h2><span class="section-num">10</span> Documentación</h2>
         <p class="section-lead">
-          An undocumented component is a broken component. If someone can't figure out how to use it
-          in five minutes, they won't use it at all — they'll rewrite it.
+          Un componente sin documentar es un componente roto. Si alguien no puede entender cómo usarlo
+          en cinco minutos, no lo usará — lo reescribirá.
         </p>
 
-        <h3>The README Template</h3>
-        <p>Every component package should have a README that follows this structure:</p>
+        <h3>La plantilla de README</h3>
+        <p>Todo paquete de componente debería tener un README con esta estructura:</p>
 
         <div class="readme-template">
-          <h4>Recommended README sections</h4>
+          <h4>Secciones recomendadas del README</h4>
           <ol>
-            <li><strong>Title</strong> — component name, one-line description, npm badge, demo link</li>
-            <li><strong>Install</strong> — npm command, CDN snippet, import statement</li>
-            <li><strong>Usage</strong> — minimal working example in HTML and JS</li>
-            <li><strong>Attributes</strong> — table: name, type, default, description</li>
-            <li><strong>Properties</strong> — table: name, type, description</li>
-            <li><strong>Events</strong> — table: name, detail shape, when fired</li>
-            <li><strong>CSS Custom Properties</strong> — table: name, default, purpose</li>
-            <li><strong>Slots</strong> — table: name, description</li>
-            <li><strong>Notes</strong> — browser support, known issues, migration notes</li>
+            <li><strong>Título</strong> — nombre del componente, descripción en una línea, badge de npm, enlace a demo</li>
+            <li><strong>Instalación</strong> — comando npm, snippet CDN, sentencia de importación</li>
+            <li><strong>Uso</strong> — ejemplo mínimo funcional en HTML y JS</li>
+            <li><strong>Atributos</strong> — tabla: nombre, tipo, valor por defecto, descripción</li>
+            <li><strong>Propiedades</strong> — tabla: nombre, tipo, descripción</li>
+            <li><strong>Eventos</strong> — tabla: nombre, forma del detail, cuándo se lanza</li>
+            <li><strong>CSS Custom Properties</strong> — tabla: nombre, valor por defecto, propósito</li>
+            <li><strong>Slots</strong> — tabla: nombre, descripción</li>
+            <li><strong>Notas</strong> — compatibilidad con navegadores, problemas conocidos, notas de migración</li>
           </ol>
         </div>
 
-        <h3>custom-elements.json (the manifest)</h3>
+        <h3>custom-elements.json (el manifiesto)</h3>
         <p>
-          The <a href="https://github.com/webcomponents/custom-elements-manifest" target="_blank" rel="noopener">Custom Elements Manifest</a>
-          is a machine-readable JSON file that describes your component's API. Tools like Storybook,
-          VS Code extensions, and documentation generators consume it automatically.
+          El <a href="https://github.com/webcomponents/custom-elements-manifest" target="_blank" rel="noopener">Custom Elements Manifest</a>
+          es un archivo JSON legible por máquinas que describe la API de tu componente. Herramientas como Storybook,
+          extensiones de VS Code y generadores de documentación lo consumen automáticamente.
         </p>
 
         <pre><code># Generate from JSDoc comments using the analyser
 npx @custom-elements-manifest/analyzer analyze --globs "src/**/*.js"</code></pre>
 
         <p>
-          Annotate your component with JSDoc so the analyser can extract the manifest:
+          Anota tu componente con JSDoc para que el analizador pueda extraer el manifiesto:
         </p>
 
         <span class="code-label">documented component</span>
@@ -1340,25 +1339,25 @@ class MfBadge extends HTMLElement &#123; /* ... */ &#125;</code></pre>
       <!-- 11 — MAINTAINABILITY -->
       <!-- ========================================================== -->
       <section id="maintainability" class="guide-section">
-        <h2><span class="section-num">11</span> Maintainability</h2>
+        <h2><span class="section-num">11</span> Mantenibilidad</h2>
         <p class="section-lead">
-          The best component is one that still makes sense six months later when a different
-          developer opens the file at 9pm to fix a production bug.
+          El mejor componente es el que sigue teniendo sentido seis meses después, cuando otro desarrollador
+          abre el archivo a las 9 de la noche para corregir un bug en producción.
         </p>
 
-        <h3>Semantic Versioning</h3>
+        <h3>Versionado semántico</h3>
         <p>
-          Follow <a href="https://semver.org" target="_blank" rel="noopener">semver</a> strictly.
-          Adding a new optional attribute is a <code>minor</code>. Renaming an existing one is a
-          <code>major</code> (it's a breaking change). Fixing a bug is a <code>patch</code>.
-          Maintain a <code>CHANGELOG.md</code>.
+          Sigue <a href="https://semver.org" target="_blank" rel="noopener">semver</a> de forma estricta.
+          Añadir un nuevo atributo opcional es un <code>minor</code>. Renombrar uno existente es un
+          <code>major</code> (es un cambio que rompe compatibilidad). Corregir un bug es un <code>patch</code>.
+          Mantén un <code>CHANGELOG.md</code>.
         </p>
 
-        <h3>Private by Default</h3>
+        <h3>Privado por defecto</h3>
         <p>
-          Use JavaScript private class fields (<code>#</code> prefix) for internal methods and state.
-          Anything that isn't part of the public API should be private. This keeps the documented
-          surface minimal and prevents consumers from accidentally depending on implementation details.
+          Usa campos privados de clase de JavaScript (prefijo <code>#</code>) para métodos internos y estado.
+          Todo lo que no forme parte de la API pública debería ser privado. Esto mantiene la superficie documentada
+          mínima y evita que los consumidores dependan accidentalmente de detalles de implementación.
         </p>
 
         <pre><code>class MfAccordion extends HTMLElement &#123;
@@ -1380,13 +1379,13 @@ class MfBadge extends HTMLElement &#123; /* ... */ &#125;</code></pre>
   get open() &#123; return this.#isOpen; &#125;
 &#125;</code></pre>
 
-        <h3>Testing: 80%+ Coverage</h3>
+        <h3>Tests: cobertura del 80% o más</h3>
         <p>
-          Web components are testable with standard DOM APIs. Use
-          <a href="https://vitest.dev" target="_blank" rel="noopener">Vitest</a> with
-          <code>happy-dom</code> or
+          Los web components son testables con las APIs estándar del DOM. Usa
+          <a href="https://vitest.dev" target="_blank" rel="noopener">Vitest</a> con
+          <code>happy-dom</code> o
           <a href="https://open-wc.org/docs/testing/testing-package/" target="_blank" rel="noopener">@open-wc/testing</a>
-          for a real browser testing environment:
+          para un entorno de pruebas en un navegador real:
         </p>
 
         <pre><code>import &#123; fixture, html, expect &#125; from '@open-wc/testing';
@@ -1408,12 +1407,12 @@ describe('mf-badge', () => &#123;
   &#125;);
 &#125;);</code></pre>
 
-        <h3>Modern JavaScript — Always</h3>
+        <h3>JavaScript moderno — siempre</h3>
         <p>
-          Write against the current ECMAScript standard. Private class fields, optional chaining,
+          Escribe contra el estándar ECMAScript actual. Campos privados de clase, optional chaining,
           nullish coalescing, <code>structuredClone</code>, <code>crypto.randomUUID</code>, top-level await —
-          these are all available in evergreen browsers. Code that targets IE11 or legacy
-          environments is not within scope of this guide.
+          todo esto está disponible en los navegadores evergreen. El código orientado a IE11 o entornos
+          heredados queda fuera del alcance de esta guía.
         </p>
 
         <pre><code>// Modern, clean, idiomatic
@@ -1438,23 +1437,23 @@ class MfSelect extends HTMLElement &#123;
 
         <aside class="tip">
           <p>
-            <strong>Bare module specifiers in production:</strong> Write
-            <code>import &#123; html &#125; from 'lit'</code> rather than relative paths when publishing to npm.
-            Your build tool (Vite, Rollup, esbuild) resolves them. Consumers benefit from tree-shaking
-            and their own version resolution.
+            <strong>Bare module specifiers en producción:</strong> Escribe
+            <code>import &#123; html &#125; from 'lit'</code> en lugar de rutas relativas al publicar en npm.
+            Tu herramienta de build (Vite, Rollup, esbuild) los resuelve. Los consumidores se benefician del tree-shaking
+            y de su propia resolución de versiones.
           </p>
         </aside>
 
-        <h3>Quick Checklist</h3>
+        <h3>Lista de comprobación rápida</h3>
         <ul>
-          <li>Private fields (<code>#</code>) for all internal state and methods</li>
-          <li>JSDoc on every public attribute, property, event, CSS custom property, and slot</li>
-          <li><code>static observedAttributes</code> only lists attributes the component actually uses</li>
-          <li><code>disconnectedCallback</code> removes all event listeners added in <code>connectedCallback</code></li>
-          <li>Tests for the happy path, the error path, and every public event</li>
-          <li><code>CHANGELOG.md</code> updated on every release</li>
-          <li><code>custom-elements.json</code> generated and committed</li>
-          <li>Live demo linked from the README</li>
+          <li>Campos privados (<code>#</code>) para todo el estado interno y los métodos</li>
+          <li>JSDoc en cada atributo público, propiedad, evento, CSS custom property y slot</li>
+          <li><code>static observedAttributes</code> solo lista los atributos que el componente usa realmente</li>
+          <li><code>disconnectedCallback</code> elimina todos los event listeners añadidos en <code>connectedCallback</code></li>
+          <li>Tests para el camino feliz, el camino de error y cada evento público</li>
+          <li><code>CHANGELOG.md</code> actualizado en cada release</li>
+          <li><code>custom-elements.json</code> generado y commiteado</li>
+          <li>Demo en vivo enlazada desde el README</li>
         </ul>
       </section>
 
@@ -1466,10 +1465,10 @@ class MfSelect extends HTMLElement &#123;
         <div class="author-bio">
           <h3>Manuel Fosela — manufosela</h3>
           <p>
-            Frontend architect and web standards nerd based in Spain. Has been building
-            web components since the v0 polyfill era, authored 50+ open-source custom elements,
-            and still thinks the best UI framework is a well-considered <code>HTMLElement</code>.
-            Writes about components, design systems, and the philosophy of web development.
+            Arquitecto frontend y apasionado de los estándares web, afincado en España. Lleva construyendo
+            web components desde la era del polyfill v0, ha publicado más de 50 custom elements de código abierto,
+            y sigue convencido de que el mejor framework de UI es un <code>HTMLElement</code> bien pensado.
+            Escribe sobre componentes, sistemas de diseño y la filosofía del desarrollo web.
           </p>
           <div class="author-links">
             <a href="https://dev.to/manufosela" target="_blank" rel="noopener">dev.to/manufosela</a>

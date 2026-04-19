@@ -1,11 +1,11 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import { siteConfig } from "../data/site";
-import { catalogs } from "../data/catalogs";
-import { demos } from "../data/demos";
-import { t } from "../data/i18n.js";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { siteConfig } from "../../data/site";
+import { catalogs } from "../../data/catalogs";
+import { demos } from "../../data/demos";
+import { t } from "../../data/i18n.js";
 
-const locale = "en";
+const locale = "es";
 const site = siteConfig[locale];
 const catalogList = catalogs[locale];
 const demoList = demos[locale];
@@ -15,7 +15,7 @@ const [firstCatalog, ...restCatalogs] = catalogList;
   title={site.title}
   navTitle={site.title}
   locale={locale}
-  translationPath="/es/"
+  translationPath="/"
 >
   <section class="hero">
     <span class="eyebrow">{t(locale, "hero.eyebrow")}</span>
@@ -83,7 +83,7 @@ const [firstCatalog, ...restCatalogs] = catalogList;
       <p>{t(locale, "section.learn.description")}</p>
     </div>
     <div class="bento">
-      <a class="card wide featured" href="/guide/">
+      <a class="card wide featured" href="/es/guide/">
         <span class="tag">{t(locale, "tag.guide")}</span>
         <h3>{t(locale, "learn.guide.title")}</h3>
         <p>{t(locale, "learn.guide.description")}</p>
